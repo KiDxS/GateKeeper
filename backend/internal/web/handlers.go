@@ -16,12 +16,6 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleLogin(w http.ResponseWriter, r *http.Request) {
-	// err := r.ParseForm()
-	// if err != nil {
-	// 	log.Error().Msg(err.Error())
-	// }
-	// usernameParam := r.PostForm.Get("username")
-	// passwordParam := r.PostForm.Get("password")
 
 	type user struct {
 		Username string `json:"username"`
