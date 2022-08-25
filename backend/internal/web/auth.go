@@ -42,16 +42,8 @@ func authMiddleware(next http.Handler) (handler http.Handler) {
 			return
 		}
 		token, _ := verifyToken(authToken.Value)
-		// if err != nil {
-		// 	if err == jwt.ErrSignatureInvalid {
-		// 		w.WriteHeader(http.StatusUnauthorized)
-		// 		return
-		// 	}
-		// 	// w.WriteHeader(http.StatusInternalServerError)
-		// 	// return
-		// }
 		if !token.Valid {
-			w.WriteHeader(http.StatusUnauthorized)
+			serveForbiddenError(w)
 			return
 		}
 		next.ServeHTTP(w, r)
