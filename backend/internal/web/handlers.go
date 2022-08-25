@@ -12,7 +12,6 @@ import (
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("hello world"))
-	return
 }
 
 func handleLogin(w http.ResponseWriter, r *http.Request) {
@@ -25,7 +24,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&u)
 	if err != nil {
-		log.Fatal().Msg(err.Error())
+		serveInteralServerError(w, err)
 	}
 	log.Info().Msgf("%q", u)
 	username, ok := models.QueryUser(u.Username, u.Password)
@@ -33,7 +32,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 		jwtToken, err := generateToken(username)
 		expirationTime := time.Now().Add(1 * time.Hour)
 		if err != nil {
-			log.Fatal().Msg(err.Error())
+			serveInteralServerError(w, err)
 		}
 		http.SetCookie(w, &http.Cookie{
 			Name:     "authToken",
@@ -43,10 +42,23 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 			Path:     "/",
 		})
 
-		w.Write([]byte("test"))
 		w.WriteHeader(http.StatusOK)
 		log.Info().Msg(jwtToken)
 		return
 	}
 
+}
+
+func handleChangePassword(w http.ResponseWriter, r *http.Request) {
+	type passwordChange struct {
+		CurrentPassword    string `json:"current_password"`
+		NewPassword        string `json:"new_password"`
+		ConfirmNewPassword string `json:"confirm_password"`
+	}
+	p := passwordChange{}
+	err := json.NewDecoder(r.Body).Decode(&p)
+	if err != nil {
+		serveInteralServerError(w, err)
+	}
+	sendJSONResponse(w, 200, true, "The password has been changed.", nil)
 }
