@@ -12,6 +12,7 @@
     - Logout
 
 ## Workflow
+
 ### Generating a SSH Key
 1. User clicks the create button.
 2. A form appears with the following fields:
@@ -25,8 +26,10 @@
     **password**
     - it cannot be less than 12 characters
 
+4. Generate SSH key pair based on the inputs
+    If password field is empty, leave the password as blank.
 
-2. Redirect the user to the created key pair.
+5. Redirect the user to the created key pair.
 
 ### Viewing a SSH Key Pair
 1. User clicks to a label of a SSH key pair.
@@ -109,7 +112,7 @@ Content type: JSON
    success: false
    message: string
    data: null
-   error_code: int 
+
 }
 ```
 
