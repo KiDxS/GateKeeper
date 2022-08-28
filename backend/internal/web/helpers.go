@@ -43,4 +43,5 @@ func sendJSONResponse(w http.ResponseWriter, statusCode int, status bool, messag
 	}
 	w.WriteHeader(statusCode)
 	w.Write(jsonResp)
+	return
 }
