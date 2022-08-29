@@ -8,21 +8,24 @@ import (
 )
 
 func serveInteralServerError(w http.ResponseWriter, err error) {
-	log.Fatal().Stack().Msg(err.Error())
+	log.Warn().Stack().Msg(err.Error())
 	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+
 }
 
 func serveForbiddenError(w http.ResponseWriter) {
 	http.Error(w, http.StatusText(http.StatusForbidden), http.StatusForbidden)
+
 }
 
 func serveError(w http.ResponseWriter, status int) {
 	http.Error(w, http.StatusText(status), status)
+
 }
 
-func serveNotFoundError(w http.ResponseWriter) {
-	http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-}
+// func serveNotFoundError(w http.ResponseWriter) {
+// 	http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+// }
 
 // Function that sends a JSON Response
 func sendJSONResponse(w http.ResponseWriter, statusCode int, status bool, message string, data interface{}) {
