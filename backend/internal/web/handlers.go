@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/KiDxS/GateKeeper/internal/models"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/rs/zerolog/log"
 )
 
@@ -14,6 +15,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("hello world"))
 }
 
+// Handles the /api/v1/user/login route
 func handleLogin(w http.ResponseWriter, r *http.Request) {
 
 	u := &LoginFields{}
@@ -44,6 +46,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 	log.Info().Msg(jwtToken)
 }
 
+// Handles the /api/v1/user/change-password route
 func handleChangePassword(w http.ResponseWriter, r *http.Request) {
 
 	p := ChangePasswordFields{}
@@ -51,15 +54,24 @@ func handleChangePassword(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		serveInteralServerError(w, err)
 	}
-	// validationError := validateChangePasswordFields(w, &p)
-	// if validationError != nil {
-	// 	sendJSONResponse(w, 400, false, validationError.Error(), nil)
-	// }
+
 	validationError := Validate(p)
 
 	if validationError != "" {
 		sendJSONResponse(w, 400, false, validationError, nil)
 		return
 	}
-	sendJSONResponse(w, 200, true, "The password has been changed", nil)
+
+	authTokenCookie, err := r.Cookie("authToken")
+	if err != nil {
+		serveInteralServerError(w, err)
+		return
+	}
+	token, _ := jwt.ParseWithClaims(authTokenCookie.Value, jwt.MapClaims{}, nil)
+	JWTClaims, ok := token.Claims.(jwt.MapClaims)
+	if ok {
+
+	}
+	log.Info().Msgf("%q", JWTClaims["username"])
+	sendJSONResponse(w, 200, true, "The password has been changed.", nil)
 }
