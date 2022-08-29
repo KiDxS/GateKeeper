@@ -18,14 +18,14 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 // Handles the /api/v1/user/login route
 func handleLogin(w http.ResponseWriter, r *http.Request) {
 
-	u := &LoginFields{}
-
-	err := json.NewDecoder(r.Body).Decode(&u)
+	loginFields := &LoginFields{}
+	user := models.User{}
+	err := json.NewDecoder(r.Body).Decode(&loginFields)
 	if err != nil {
 		serveInteralServerError(w, err)
 	}
-	log.Info().Msgf("%q", u)
-	username, ok := models.QueryUser(u.Username, u.Password)
+	log.Info().Msgf("%q", loginFields)
+	username, ok := user.QueryUser(loginFields.Username, loginFields.Password)
 	if !ok {
 		sendJSONResponse(w, 401, false, "Username or password is incorrect.", nil)
 	}
@@ -49,13 +49,13 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 // Handles the /api/v1/user/change-password route
 func handleChangePassword(w http.ResponseWriter, r *http.Request) {
 
-	p := ChangePasswordFields{}
-	err := json.NewDecoder(r.Body).Decode(&p)
+	changePasswordFields := ChangePasswordFields{}
+	err := json.NewDecoder(r.Body).Decode(&changePasswordFields)
 	if err != nil {
 		serveInteralServerError(w, err)
 	}
 
-	validationError := Validate(p)
+	validationError := Validate(changePasswordFields)
 
 	if validationError != "" {
 		sendJSONResponse(w, 400, false, validationError, nil)
