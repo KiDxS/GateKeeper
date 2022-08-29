@@ -25,6 +25,7 @@ func loadSecretKey() (secretKey []byte) {
 	return
 }
 
+// Verifies the JWT Token
 func verifyToken(tokenString string) (token *jwt.Token, err error) {
 	secretKey := loadSecretKey()
 	claims := &jwtClaim{}
