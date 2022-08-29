@@ -7,26 +7,17 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-type user struct {
+type User struct {
 	ID       int
 	Username string
 	Password string
 }
 
 // Creates a connection to the database
-func Connect() (db *sql.DB) {
-	db, err := sql.Open("sqlite3", "./internal/storage/database.db")
-	if err != nil {
-		log.Fatal().Msg(err.Error())
-	}
-	return
-}
 
 // Queries the database for valid user credentials
-func QueryUser(username, password string) (u string, ifExists bool) {
-	user := &user{}
-	db := Connect()
-
+func (user *User) QueryUser(username, password string) (u string, ifExists bool) {
+	db := connect()
 	// db, err := sql.Open("sqlite3", "./internal/storage/database.db")
 	// if err != nil {
 	// 	log.Fatal().Msg(err.Error())
@@ -40,4 +31,15 @@ func QueryUser(username, password string) (u string, ifExists bool) {
 	}
 	return user.Username, true
 
+}
+
+func (user *User) ChangeUserPassword(username, password string) (err error) {
+	db := connect()
+	stm, _ := db.Prepare("UPDATE user SET password = ? where username = ?")
+	_, err = stm.Exec(password, username)
+	if err != nil {
+		return
+	}
+
+	return nil
 }
