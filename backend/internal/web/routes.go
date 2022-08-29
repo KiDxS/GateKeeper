@@ -19,11 +19,17 @@ func (app *Application) Routes() (handler http.Handler) {
 	}))
 	// Api version 1
 	router.Route("/api/v1", func(r chi.Router) {
+
 		// User authentication
 		// /api/v1/user/
 		r.Route("/user", func(r chi.Router) {
 			r.Post("/login", handleLogin)
-			r.Post("/change-password", handleChangePassword)
+
+			// Requires authentication
+			r.Group(func(r chi.Router) {
+				r.Use(authMiddleware)
+				r.Post("/change-password", handleChangePassword)
+			})
 
 		})
 		// /api/v1/protected
