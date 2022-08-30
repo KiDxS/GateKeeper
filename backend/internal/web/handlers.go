@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/KiDxS/GateKeeper/internal/models"
 	"github.com/dgrijalva/jwt-go"
@@ -32,7 +31,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 		sendJSONResponse(w, 401, false, "Username or password is incorrect.", nil)
 	}
 	jwtToken, err := generateToken(username)
-	expirationTime := time.Now().Add(1 * time.Hour)
+	// expirationTime := time.Now().Add(1 * time.Hour)
 	if err != nil {
 		serveInteralServerError(w, err)
 		return
@@ -40,13 +39,26 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, &http.Cookie{
 		Name:     "authToken",
 		Value:    jwtToken,
-		Expires:  expirationTime,
+		MaxAge:   60 * 60,
 		HttpOnly: true,
 		Path:     "/",
 	})
 
 	w.WriteHeader(204)
 	log.Info().Msg(jwtToken)
+}
+
+// Handles the /api/v1/user/logout route
+func handleLogout(w http.ResponseWriter, r *http.Request) {
+	// Expires the authToken cookie
+	http.SetCookie(w, &http.Cookie{
+		Name:     "authToken",
+		Value:    "",
+		MaxAge:   0,
+		HttpOnly: true,
+		Path:     "/",
+	})
+	w.WriteHeader(204)
 }
 
 // Handles the /api/v1/user/change-password route

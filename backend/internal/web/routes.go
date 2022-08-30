@@ -23,8 +23,10 @@ func (app *Application) Routes() (handler http.Handler) {
 		// User authentication
 		// /api/v1/user/
 		r.Route("/user", func(r chi.Router) {
+			// /api/v1/user/login
 			r.Post("/login", handleLogin)
-
+			// /api/v1/user/logout
+			r.Get("/logout", handleLogout)
 			// Requires authentication
 			r.Group(func(r chi.Router) {
 				r.Use(authMiddleware)
