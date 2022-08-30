@@ -24,6 +24,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&loginFields)
 	if err != nil {
 		serveInteralServerError(w, err)
+		return
 	}
 	log.Info().Msgf("%q", loginFields)
 	username, ok := user.QueryUser(loginFields.Username, loginFields.Password)
@@ -34,6 +35,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 	expirationTime := time.Now().Add(1 * time.Hour)
 	if err != nil {
 		serveInteralServerError(w, err)
+		return
 	}
 	http.SetCookie(w, &http.Cookie{
 		Name:     "authToken",
@@ -54,6 +56,7 @@ func handleChangePassword(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&changePasswordFields)
 	if err != nil {
 		serveInteralServerError(w, err)
+		return
 	}
 
 	validationError := Validate(changePasswordFields)
