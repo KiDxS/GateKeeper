@@ -2,6 +2,7 @@ package web
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -48,7 +49,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 
 // Handles the /api/v1/user/change-password route
 func handleChangePassword(w http.ResponseWriter, r *http.Request) {
-
+	user := models.User{}
 	changePasswordFields := ChangePasswordFields{}
 	err := json.NewDecoder(r.Body).Decode(&changePasswordFields)
 	if err != nil {
@@ -70,8 +71,15 @@ func handleChangePassword(w http.ResponseWriter, r *http.Request) {
 	token, _ := jwt.ParseWithClaims(authTokenCookie.Value, jwt.MapClaims{}, nil)
 	JWTClaims, ok := token.Claims.(jwt.MapClaims)
 	if ok {
+		// Be careful of %s formats because it doesn't escape special characters.
+		username := fmt.Sprintf("%s", JWTClaims["username"])
+		password := changePasswordFields.NewPassword
+		err = user.ChangeUserPassword(username, password)
+		if err != nil {
+			serveInteralServerError(w, err)
+			return
+		}
 
 	}
-	log.Info().Msgf("%q", JWTClaims["username"])
 	sendJSONResponse(w, 200, true, "The password has been changed.", nil)
 }
