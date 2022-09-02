@@ -10,7 +10,7 @@ import (
 func (app *Application) Routes() (handler http.Handler) {
 	router := chi.NewRouter()
 	router.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"http://127.0.0.1:3000"},
+		AllowedOrigins:   []string{"http://127.0.0.1:3000", "http://localhost:3000"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		AllowCredentials: true,
