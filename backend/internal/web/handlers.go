@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/KiDxS/GateKeeper/internal/models"
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/rs/zerolog/log"
 )
 
@@ -29,6 +29,7 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 	username, ok := user.QueryUser(loginFields.Username, loginFields.Password)
 	if !ok {
 		sendJSONResponse(w, 401, false, "Username or password is incorrect.", nil)
+		return
 	}
 	jwtToken, err := generateToken(username)
 	// expirationTime := time.Now().Add(1 * time.Hour)
