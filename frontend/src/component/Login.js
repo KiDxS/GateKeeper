@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Paper,
     createStyles,
@@ -6,11 +6,12 @@ import {
     PasswordInput,
     Button,
     Title,
-    Text,
+    Alert,
 } from "@mantine/core";
+import { IconAlertCircle } from "@tabler/icons";
 import { useForm } from "@mantine/form";
 import axios from "axios";
-
+import FlashMessage from "react-flash-message";
 const useStyles = createStyles((theme) => ({
     wrapper: {
         minHeight: 900,
@@ -52,6 +53,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 function Login() {
+    const [loginStatus, setLoginStatus] = useState(true);
     const form = useForm({
         initialValues: {
             username: "",
@@ -64,6 +66,7 @@ function Login() {
                 value.length < 1 ? "Password must not be empty" : null,
         },
     });
+
     const sendLoginRequest = form.onSubmit((values) => {
         axios
             .post(
@@ -78,8 +81,12 @@ function Login() {
             )
             .then((res) => {
                 console.log(res.status);
+                setLoginStatus(true);
             })
-            .catch((err) => {});
+            .catch((err) => {
+                console.log("error");
+                setLoginStatus(false);
+            });
     });
     const { classes } = useStyles();
     return (
@@ -95,6 +102,15 @@ function Login() {
                     >
                         GateKeeper Login Page
                     </Title>
+                    {loginStatus === false && (
+                        <Alert
+                            icon={<IconAlertCircle size={16} />}
+                            title="Bummer!"
+                            color="red"
+                        >
+                            Username or password is incorrect.
+                        </Alert>
+                    )}
                     <TextInput
                         label="Username"
                         placeholder="Your username"
@@ -108,13 +124,7 @@ function Login() {
                         size="md"
                         {...form.getInputProps("password")}
                     />
-                    <Button
-                        fullWidth
-                        mt="xl"
-                        size="md"
-
-                        type="submit"
-                    >
+                    <Button fullWidth mt="xl" size="md" type="submit">
                         {" "}
                         Login
                     </Button>
