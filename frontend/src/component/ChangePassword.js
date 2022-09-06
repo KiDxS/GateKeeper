@@ -96,12 +96,14 @@ function ChangePassword() {
                         <PasswordInput
                             label="New Password"
                             placeholder="New Password"
+                            mt={10}
                             withAsterisk
                             {...form.getInputProps("new_password")}
                         ></PasswordInput>
                         <PasswordInput
-                            label="New Current Password"
-                            placeholder="New Current Password"
+                            label="Confirm Password"
+                            placeholder="Confirm Password"
+                            mt={10}
                             withAsterisk
                             {...form.getInputProps("confirm_new_password")}
                         ></PasswordInput>
