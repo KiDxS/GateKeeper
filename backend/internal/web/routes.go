@@ -30,6 +30,7 @@ func (app *Application) Routes() (handler http.Handler) {
 			// Requires authentication
 			r.Group(func(r chi.Router) {
 				r.Use(authMiddleware)
+				// /api/v1/user/change-password
 				r.Post("/change-password", handleChangePassword)
 			})
 
