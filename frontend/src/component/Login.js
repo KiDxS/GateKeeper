@@ -11,7 +11,8 @@ import {
 import { IconAlertCircle } from "@tabler/icons";
 import { useForm } from "@mantine/form";
 import axios from "axios";
-import FlashMessage from "react-flash-message";
+import { Helmet } from "react-helmet";
+
 const useStyles = createStyles((theme) => ({
     wrapper: {
         minHeight: 900,
@@ -61,9 +62,9 @@ function Login() {
         },
         validate: {
             username: (value) =>
-                value.length < 1 ? "Username must not be empty" : null,
+                value.length < 1 ? "Username must not be empty." : null,
             password: (value) =>
-                value.length < 1 ? "Password must not be empty" : null,
+                value.length < 1 ? "Password must not be empty." : null,
         },
     });
 
@@ -91,6 +92,9 @@ function Login() {
     const { classes } = useStyles();
     return (
         <div className={classes.wrapper}>
+            <Helmet>
+                <title>GateKeeper - Login Page</title>
+            </Helmet>
             <form onSubmit={sendLoginRequest}>
                 <Paper className={classes.form} radius={0} p={30}>
                     <Title
