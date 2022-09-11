@@ -33,7 +33,7 @@ func (app *Application) Routes() (handler http.Handler) {
 				// /api/v1/user/change-password
 				r.Post("/change-password", handleChangePassword)
 			})
-
+			
 		})
 		// /api/v1/protected
 		r.Route("/protected", func(r chi.Router) {

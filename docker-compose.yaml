@@ -1,0 +1,12 @@
+version: '3'
+services:
+  gatekeeper-frontend:
+    image: gatekeeper-frontend:latest
+    ports:
+      - 3000:3000
+    
+  gatekeeper-backend:
+    image: gatekeeper-backend:latest
+    ports:
+      - 8080:8080
+
