@@ -37,6 +37,8 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 		serveInteralServerError(w, err)
 		return
 	}
+
+	// Sets the cookie of the user
 	http.SetCookie(w, &http.Cookie{
 		Name:     "authToken",
 		Value:    jwtToken,
@@ -89,10 +91,13 @@ func handleChangePassword(w http.ResponseWriter, r *http.Request) {
 	if ok {
 		// Be careful of %s formats because it doesn't escape special characters.
 		username := fmt.Sprintf("%s", JWTClaims["username"])
-		password := changePasswordFields.NewPassword
-		err = user.ChangeUserPassword(username, password)
+		passwordChanged, err := user.ChangeUserPassword(username, changePasswordFields.CurrentPassword, changePasswordFields.NewPassword)
 		if err != nil {
 			serveInteralServerError(w, err)
+			return
+		}
+		if !passwordChanged {
+			sendJSONResponse(w, 400, false, "Your current password is not correct.", nil)
 			return
 		}
 

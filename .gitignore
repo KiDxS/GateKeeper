@@ -15,3 +15,4 @@
 
 # Ignore node_modules in frontend
 frontend/node_modules
+backend/tmp

@@ -32,25 +32,22 @@ func (user *User) QueryUser(username, password string) (u string, ifExists bool)
 
 }
 
-func (user *User) ChangeUserPassword(username, password string) (err error) {
+func (user *User) ChangeUserPassword(username, currentPassword, password string) (passwordUpdated bool, err error) {
 	user.Username = username
-	user.Password = password
+	user.Password = currentPassword
 	db := connect()
-	stmt, _ := db.Prepare("UPDATE user SET password = ? where username = ?")
-	result, err := stmt.Exec(user.Password, user.Username)
+
+	// SQL Query to update the password column, if the conditions are right.
+	stmt, _ := db.Prepare("UPDATE user SET password = ? where username = ? AND password = ?")
+	result, err := stmt.Exec(password, user.Username, user.Password)
 	if err != nil {
-		return
+		return false, err
 	}
 	rowsAffected, _ := result.RowsAffected()
 	log.Info().Msgf("Rows affected: %d", rowsAffected)
 
-	// stm, _ := db.Prepare("SELECT * FROM user WHERE username = ? AND password = ?")
-
-	// err = stm.QueryRow(username, password).Scan(&user.ID, &user.Username, &user.Password)
-	// if err == sql.ErrNoRows {
-	// 	return
-	// }
-	// log.Info().Msgf("Username: %q, Password: %q", user.Username, user.Password)
-
-	return nil
+	if rowsAffected != 1 {
+		return false, nil
+	}
+	return true, nil
 }
