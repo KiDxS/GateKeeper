@@ -9,8 +9,9 @@ import (
 
 func (app *Application) Routes() (handler http.Handler) {
 	router := chi.NewRouter()
+	handler = router
 	router.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"http://127.0.0.1:3000", "http://localhost:3000"},
+		AllowedOrigins:   []string{"http://127.0.0.1:3000", "http://localhost:3000"}, // Sets allowed origin
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		AllowCredentials: true,
@@ -33,7 +34,7 @@ func (app *Application) Routes() (handler http.Handler) {
 				// /api/v1/user/change-password
 				r.Post("/change-password", handleChangePassword)
 			})
-			
+
 		})
 		// /api/v1/protected
 		r.Route("/protected", func(r chi.Router) {
@@ -42,5 +43,5 @@ func (app *Application) Routes() (handler http.Handler) {
 		})
 	})
 
-	return router
+	return
 }
