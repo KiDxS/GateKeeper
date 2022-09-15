@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/KiDxS/GateKeeper/internal/models"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/rs/zerolog/log"
 )
@@ -16,7 +17,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 // Handles the /api/v1/user/login route
 func handleLogin(w http.ResponseWriter, r *http.Request) {
-
+	user := models.User{}
 	loginFields := &LoginFields{}
 	err := json.NewDecoder(r.Body).Decode(&loginFields)
 	if err != nil {
@@ -64,6 +65,7 @@ func handleLogout(w http.ResponseWriter, r *http.Request) {
 
 // Handles the /api/v1/user/change-password route
 func handleChangePassword(w http.ResponseWriter, r *http.Request) {
+	user := models.User{}
 	changePasswordFields := ChangePasswordFields{}
 	err := json.NewDecoder(r.Body).Decode(&changePasswordFields)
 	if err != nil {
