@@ -10,7 +10,7 @@ import (
 )
 
 // Create a custom error message.
-func msgForTag(fe validator.FieldError, fieldName string) (err string) {
+func msgForTag(fe validator.FieldError, fieldName string) string {
 	switch fe.Tag() {
 	case "required":
 		return fmt.Sprintf("The %s field is required to contain values.", fieldName)
@@ -23,12 +23,13 @@ func msgForTag(fe validator.FieldError, fieldName string) (err string) {
 		}
 
 	}
-	return
+	return ""
 }
 
 // Validate a field
-func Validate(fieldStruct interface{}) (e string) {
+func Validate(fieldStruct interface{}) string {
 	validate := validator.New()
+	e := ""
 	validate.RegisterTagNameFunc(func(fld reflect.StructField) string {
 		name := strings.SplitN(fld.Tag.Get("json"), ",", 2)[0]
 		if name == "-" {
@@ -39,7 +40,7 @@ func Validate(fieldStruct interface{}) (e string) {
 
 	err := validate.Struct(fieldStruct)
 	if err == nil {
-		return
+		return e
 	}
 
 	validationErrors := err.(validator.ValidationErrors)
@@ -47,5 +48,5 @@ func Validate(fieldStruct interface{}) (e string) {
 	fieldName := validationErr.Field()
 	log.Warn().Msg(validationErrors.Error())
 	e = msgForTag(validationErr, fieldName)
-	return
+	return e
 }

@@ -7,9 +7,9 @@ import (
 	"github.com/go-chi/cors"
 )
 
-func Routes() (handler http.Handler) {
+func Routes() http.Handler {
 	router := chi.NewRouter()
-	handler = router
+	handler := router
 	router.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   []string{"http://127.0.0.1:3000", "http://localhost:3000"}, // Sets allowed origin
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
@@ -43,5 +43,5 @@ func Routes() (handler http.Handler) {
 		})
 	})
 
-	return
+	return handler
 }

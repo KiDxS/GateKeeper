@@ -16,7 +16,7 @@ type User struct {
 // Creates a connection to the database
 
 // Queries the database for valid user credentials
-func (user *User) QueryUser(username, password string) (u string, ifExists bool) {
+func (user *User) QueryUser(username, password string) (string, bool) {
 	db := connect()
 
 	stm, _ := db.Prepare("SELECT * FROM user WHERE username = ? AND password = ?")
@@ -30,7 +30,7 @@ func (user *User) QueryUser(username, password string) (u string, ifExists bool)
 }
 
 // Changes the password of the user
-func (user *User) ChangeUserPassword(username, currentPassword, password string) (passwordUpdated bool, err error) {
+func (user *User) ChangeUserPassword(username, currentPassword, password string) (bool, error) {
 	user.Username = username
 	user.Password = currentPassword
 	db := connect()
