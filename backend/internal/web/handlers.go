@@ -7,16 +7,15 @@ import (
 
 	"github.com/KiDxS/GateKeeper/internal/models"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/rs/zerolog/log"
 )
 
-func handleIndex(w http.ResponseWriter, r *http.Request) {
+func HandleIndex(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("hello world"))
 }
 
 // Handles the /api/v1/user/login route
-func handleLogin(w http.ResponseWriter, r *http.Request) {
+func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	user := models.User{}
 	loginFields := &LoginFields{}
 	err := json.NewDecoder(r.Body).Decode(&loginFields)
@@ -24,7 +23,6 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 		serveInteralServerError(w, err)
 		return
 	}
-	log.Info().Msgf("%q", loginFields)
 	username, ok := user.QueryUser(loginFields.Username, loginFields.Password)
 	if !ok {
 		sendJSONResponse(w, 401, false, "Username or password is incorrect.", nil)
@@ -47,7 +45,6 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 	})
 
 	w.WriteHeader(204)
-	log.Info().Msg(jwtToken)
 }
 
 // Handles the /api/v1/user/logout route
@@ -102,4 +99,8 @@ func handleChangePassword(w http.ResponseWriter, r *http.Request) {
 
 	}
 	sendJSONResponse(w, 200, true, "The password has been changed.", nil)
+}
+
+func HandleSSHGeneration(w http.ResponseWriter, r *http.Request) {
+
 }

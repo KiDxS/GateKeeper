@@ -4,7 +4,6 @@ import (
 	"database/sql"
 
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/rs/zerolog/log"
 )
 
 type User struct {
@@ -42,7 +41,6 @@ func (user *User) ChangeUserPassword(username, currentPassword, password string)
 		return false, err
 	}
 	rowsAffected, _ := result.RowsAffected()
-	log.Info().Msgf("Rows affected: %d", rowsAffected)
 
 	if rowsAffected != 1 {
 		return false, nil
