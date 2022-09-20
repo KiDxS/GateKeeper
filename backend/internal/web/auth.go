@@ -3,6 +3,7 @@ package web
 import (
 	"net/http"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -16,7 +17,10 @@ type jwtClaim struct {
 }
 
 func loadSecretKey() (secretKey []byte) {
-	err := godotenv.Load()
+	pwd, _ := os.Getwd()
+	rootPath := filepath.Dir(pwd)
+	path := filepath.Join(rootPath, ".env")
+	err := godotenv.Load(path)
 	if err != nil {
 		log.Fatal().Msg(err.Error())
 	}
