@@ -25,7 +25,7 @@ func Routes() http.Handler {
 		// /api/v1/user/
 		r.Route("/user", func(r chi.Router) {
 			// /api/v1/user/login
-			r.Post("/login", handleLogin)
+			r.Post("/login", HandleLogin)
 			// /api/v1/user/logout
 			r.Get("/logout", handleLogout)
 			// Requires authentication
@@ -36,10 +36,12 @@ func Routes() http.Handler {
 			})
 
 		})
+		// Debugging purposes, remove later
+		r.Get("/", HandleIndex)
 		// /api/v1/protected
 		r.Route("/protected", func(r chi.Router) {
 			r.Use(authMiddleware)
-			r.Get("/", handleIndex)
+			r.Get("/", HandleIndex)
 		})
 	})
 
