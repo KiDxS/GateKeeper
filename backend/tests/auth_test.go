@@ -10,7 +10,7 @@ import (
 	"github.com/KiDxS/GateKeeper/internal/web"
 )
 
-func sendLoginRequest(field web.LoginFields, t testing.TB) string {
+func sendLoginRequest(field web.LoginFields, t testing.TB) int {
 	var b bytes.Buffer
 	err := json.NewEncoder(&b).Encode(field)
 	if err != nil {
@@ -20,14 +20,14 @@ func sendLoginRequest(field web.LoginFields, t testing.TB) string {
 	req := httptest.NewRequest(http.MethodPost, "/api/v1/user/login", &b)
 	web.HandleLogin(w, req)
 	resp := w.Result()
-	return resp.Status
+	return resp.StatusCode
 }
 
 func TestAuth(t *testing.T) {
 	t.Run("Test if login is successful", func(t *testing.T) {
 		loginFields := web.LoginFields{Username: "admin", Password: "abcdefghijklm"}
 		got := sendLoginRequest(loginFields, t)
-		want := "204 No Content"
+		want := 204
 		if got != want {
 			t.Errorf("got %q but want %q", got, want)
 		}
@@ -36,7 +36,7 @@ func TestAuth(t *testing.T) {
 	t.Run("Test if login is unsuccesful", func(t *testing.T) {
 		loginFields := web.LoginFields{Username: "admin", Password: "abcdefghijklmd"}
 		got := sendLoginRequest(loginFields, t)
-		want := "401 Unauthorized"
+		want := 401
 		if got != want {
 			t.Errorf("got %q but want %q", got, want)
 		}
