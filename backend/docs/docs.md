@@ -12,8 +12,9 @@
     - Logout
 
 ## Workflow
-
-### Generating a SSH Key
+### SSH Management
+To manage the SSH pairs we will be using IDs to access or modify these pairs.
+#### Generating a SSH Key
 1. User clicks the create button.
 2. A form appears with the following fields:
     - label
@@ -31,15 +32,20 @@
 
 5. Redirect the user to the created key pair.
 
-### Viewing a SSH Key Pair
+#### Viewing the list of generated SSH pairs
+1. User logins to the application.
+2. The dashboard will be populated with information. e.g the labels of the SSH pairs.
+
+#### Viewing a SSH Key Pair
 1. User clicks to a label of a SSH key pair.
 2. Opens a new page where the user can see the key pair.
 
-### Deleting a SSH Key Pair
+#### Deleting a SSH Key Pair
 1. User views a key.
 2. A delete option will appear.
 
-### Login
+### User authentication
+#### Login
 1. The user opens up the login page
 2. Two fields will appear
     - username
@@ -64,7 +70,7 @@
 
 
 
-### Change password
+#### Change password
 1. The user clicks the change password label in the navbar which will lead to an another page.
 2. There would be 3 fields that will be present
     - Current password
@@ -132,7 +138,8 @@ GET /api/v1/user/logout
 POST /api/v1/user/changepw
 
 // SSH key pair object
-GET /api/v1/key/:id - To retrieve
+GET /api/v1/key - Retrieve a list of SSH pairs.
+GET /api/v1/key/:id - To retrieve a single SSH pair
 DELETE /api/v1/key/:id - To delete
 POST /api/v1/key - To Create
 ```

@@ -4,7 +4,6 @@ import (
 	"database/sql"
 
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/rs/zerolog/log"
 )
 
 type User struct {
@@ -16,12 +15,9 @@ type User struct {
 // Creates a connection to the database
 
 // Queries the database for valid user credentials
-func (user *User) QueryUser(username, password string) (u string, ifExists bool) {
+func (user *User) QueryUser(username, password string) (string, bool) {
 	db := connect()
-	// db, err := sql.Open("sqlite3", "./internal/storage/database.db")
-	// if err != nil {
-	// 	log.Fatal().Msg(err.Error())
-	// }
+
 	stm, _ := db.Prepare("SELECT * FROM user WHERE username = ? AND password = ?")
 
 	err := stm.QueryRow(username, password).Scan(&user.ID, &user.Username, &user.Password)
@@ -32,25 +28,22 @@ func (user *User) QueryUser(username, password string) (u string, ifExists bool)
 
 }
 
-func (user *User) ChangeUserPassword(username, password string) (err error) {
+// Changes the password of the user
+func (user *User) ChangeUserPassword(username, currentPassword, password string) (bool, error) {
 	user.Username = username
-	user.Password = password
+	user.Password = currentPassword
 	db := connect()
-	stmt, _ := db.Prepare("UPDATE user SET password = ? where username = ?")
-	result, err := stmt.Exec(user.Password, user.Username)
+
+	// SQL Query to update the password column, if the conditions are right.
+	stm, _ := db.Prepare("UPDATE user SET password = ? where username = ? AND password = ?")
+	result, err := stm.Exec(password, user.Username, user.Password)
 	if err != nil {
-		return
+		return false, err
 	}
 	rowsAffected, _ := result.RowsAffected()
-	log.Info().Msgf("Rows affected: %d", rowsAffected)
 
-	// stm, _ := db.Prepare("SELECT * FROM user WHERE username = ? AND password = ?")
-
-	// err = stm.QueryRow(username, password).Scan(&user.ID, &user.Username, &user.Password)
-	// if err == sql.ErrNoRows {
-	// 	return
-	// }
-	// log.Info().Msgf("Username: %q, Password: %q", user.Username, user.Password)
-
-	return nil
+	if rowsAffected != 1 {
+		return false, nil
+	}
+	return true, nil
 }

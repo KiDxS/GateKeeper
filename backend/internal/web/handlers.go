@@ -6,29 +6,27 @@ import (
 	"net/http"
 
 	"github.com/KiDxS/GateKeeper/internal/models"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/rs/zerolog/log"
+	"github.com/golang-jwt/jwt/v4"
 )
 
-func handleIndex(w http.ResponseWriter, r *http.Request) {
+func HandleIndex(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("hello world"))
 }
 
 // Handles the /api/v1/user/login route
-func handleLogin(w http.ResponseWriter, r *http.Request) {
-
-	loginFields := &LoginFields{}
+func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	user := models.User{}
-	err := json.NewDecoder(r.Body).Decode(&loginFields)
+	fields := &LoginFields{}
+	err := json.NewDecoder(r.Body).Decode(&fields)
 	if err != nil {
 		serveInteralServerError(w, err)
 		return
 	}
-	log.Info().Msgf("%q", loginFields)
-	username, ok := user.QueryUser(loginFields.Username, loginFields.Password)
+	username, ok := user.QueryUser(fields.Username, fields.Password)
 	if !ok {
 		sendJSONResponse(w, 401, false, "Username or password is incorrect.", nil)
+		return
 	}
 	jwtToken, err := generateToken(username)
 	// expirationTime := time.Now().Add(1 * time.Hour)
@@ -36,6 +34,8 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 		serveInteralServerError(w, err)
 		return
 	}
+
+	// Sets the cookie of the user
 	http.SetCookie(w, &http.Cookie{
 		Name:     "authToken",
 		Value:    jwtToken,
@@ -45,7 +45,6 @@ func handleLogin(w http.ResponseWriter, r *http.Request) {
 	})
 
 	w.WriteHeader(204)
-	log.Info().Msg(jwtToken)
 }
 
 // Handles the /api/v1/user/logout route
@@ -64,14 +63,14 @@ func handleLogout(w http.ResponseWriter, r *http.Request) {
 // Handles the /api/v1/user/change-password route
 func handleChangePassword(w http.ResponseWriter, r *http.Request) {
 	user := models.User{}
-	changePasswordFields := ChangePasswordFields{}
-	err := json.NewDecoder(r.Body).Decode(&changePasswordFields)
+	fields := ChangePasswordFields{}
+	err := json.NewDecoder(r.Body).Decode(&fields)
 	if err != nil {
 		serveInteralServerError(w, err)
 		return
 	}
 
-	validationError := Validate(changePasswordFields)
+	validationError := Validate(fields)
 
 	if validationError != "" {
 		sendJSONResponse(w, 400, false, validationError, nil)
@@ -88,13 +87,37 @@ func handleChangePassword(w http.ResponseWriter, r *http.Request) {
 	if ok {
 		// Be careful of %s formats because it doesn't escape special characters.
 		username := fmt.Sprintf("%s", JWTClaims["username"])
-		password := changePasswordFields.NewPassword
-		err = user.ChangeUserPassword(username, password)
+		passwordChanged, err := user.ChangeUserPassword(username, fields.CurrentPassword, fields.NewPassword)
 		if err != nil {
 			serveInteralServerError(w, err)
+			return
+		}
+		if !passwordChanged {
+			sendJSONResponse(w, 400, false, "Your current password is not correct.", nil)
 			return
 		}
 
 	}
 	sendJSONResponse(w, 200, true, "The password has been changed.", nil)
+}
+
+func HandleSSHGeneration(w http.ResponseWriter, r *http.Request) {
+	fields := SSHGenerationFields{}
+	keypair := models.SSHKeyPair{}
+	err := json.NewDecoder(r.Body).Decode(&fields)
+	if err != nil {
+		serveInteralServerError(w, err)
+		return
+	}
+	validationError := Validate(fields)
+	if validationError != "" {
+		sendJSONResponse(w, 400, false, validationError, nil)
+		return
+	}
+	privateKey, publicKey := GenerateSSHPair(fields.Password)
+	err = keypair.InsertSSHPairKey(fields.Label, publicKey, privateKey)
+	if err != nil {
+		serveInteralServerError(w, err)
+	}
+	sendJSONResponse(w, 200, true, "An SSH keypair has been generated", nil)
 }
