@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator"
-	"github.com/rs/zerolog/log"
 )
 
 // Create a custom error message.
@@ -46,7 +45,6 @@ func Validate(fieldStruct interface{}) string {
 	validationErrors := err.(validator.ValidationErrors)
 	validationErr := validationErrors[0]
 	fieldName := validationErr.Field()
-	log.Warn().Msg(validationErrors.Error())
 	e = msgForTag(validationErr, fieldName)
 	return e
 }
