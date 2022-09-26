@@ -26,6 +26,8 @@ func convertPrivateKey(key *rsa.PrivateKey, password string) string {
 }
 
 // Generates a private key
+//
+// Function returns a string: privateKey and a struct.
 func GeneratePrivateKey(password string) (string, *rsa.PrivateKey) {
 	bitSize := 2048
 	privateKeyStruct, _ := rsa.GenerateKey(rand.Reader, bitSize)
@@ -40,7 +42,9 @@ func GeneratePublicKey(privateKey *rsa.PrivateKey) string {
 	return publicKey
 }
 
-// Generates a SSH pair: A Private Key and a Public Key
+// Generates a SSH pair: A Private Key and a Public Key.
+//
+// Function returns a privateKey and a publicKey.
 func GenerateSSHPair(password string) (string, string) {
 	privateKey, privateKeyStruct := GeneratePrivateKey(password)
 	publicKey := GeneratePublicKey(privateKeyStruct)
