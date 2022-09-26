@@ -17,13 +17,13 @@ func HandleIndex(w http.ResponseWriter, r *http.Request) {
 // Handles the /api/v1/user/login route
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	user := models.User{}
-	loginFields := &LoginFields{}
-	err := json.NewDecoder(r.Body).Decode(&loginFields)
+	fields := &LoginFields{}
+	err := json.NewDecoder(r.Body).Decode(&fields)
 	if err != nil {
 		serveInteralServerError(w, err)
 		return
 	}
-	username, ok := user.QueryUser(loginFields.Username, loginFields.Password)
+	username, ok := user.QueryUser(fields.Username, fields.Password)
 	if !ok {
 		sendJSONResponse(w, 401, false, "Username or password is incorrect.", nil)
 		return
@@ -63,14 +63,14 @@ func handleLogout(w http.ResponseWriter, r *http.Request) {
 // Handles the /api/v1/user/change-password route
 func handleChangePassword(w http.ResponseWriter, r *http.Request) {
 	user := models.User{}
-	changePasswordFields := ChangePasswordFields{}
-	err := json.NewDecoder(r.Body).Decode(&changePasswordFields)
+	fields := ChangePasswordFields{}
+	err := json.NewDecoder(r.Body).Decode(&fields)
 	if err != nil {
 		serveInteralServerError(w, err)
 		return
 	}
 
-	validationError := Validate(changePasswordFields)
+	validationError := Validate(fields)
 
 	if validationError != "" {
 		sendJSONResponse(w, 400, false, validationError, nil)
@@ -87,7 +87,7 @@ func handleChangePassword(w http.ResponseWriter, r *http.Request) {
 	if ok {
 		// Be careful of %s formats because it doesn't escape special characters.
 		username := fmt.Sprintf("%s", JWTClaims["username"])
-		passwordChanged, err := user.ChangeUserPassword(username, changePasswordFields.CurrentPassword, changePasswordFields.NewPassword)
+		passwordChanged, err := user.ChangeUserPassword(username, fields.CurrentPassword, fields.NewPassword)
 		if err != nil {
 			serveInteralServerError(w, err)
 			return
@@ -102,5 +102,22 @@ func handleChangePassword(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleSSHGeneration(w http.ResponseWriter, r *http.Request) {
-
+	fields := SSHGenerationFields{}
+	keypair := models.SSHKeyPair{}
+	err := json.NewDecoder(r.Body).Decode(&fields)
+	if err != nil {
+		serveInteralServerError(w, err)
+		return
+	}
+	validationError := Validate(fields)
+	if validationError != "" {
+		sendJSONResponse(w, 400, false, validationError, nil)
+		return
+	}
+	privateKey, publicKey := GenerateSSHPair(fields.Password)
+	err = keypair.InsertSSHPairKey(fields.Label, publicKey, privateKey)
+	if err != nil {
+		serveInteralServerError(w, err)
+	}
+	sendJSONResponse(w, 200, true, "An SSH keypair has been generated", nil)
 }
