@@ -35,8 +35,8 @@ func (user *User) ChangeUserPassword(username, currentPassword, password string)
 	db := connect()
 
 	// SQL Query to update the password column, if the conditions are right.
-	stmt, _ := db.Prepare("UPDATE user SET password = ? where username = ? AND password = ?")
-	result, err := stmt.Exec(password, user.Username, user.Password)
+	stm, _ := db.Prepare("UPDATE user SET password = ? where username = ? AND password = ?")
+	result, err := stm.Exec(password, user.Username, user.Password)
 	if err != nil {
 		return false, err
 	}
