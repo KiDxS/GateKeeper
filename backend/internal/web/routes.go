@@ -51,7 +51,9 @@ func Routes() http.Handler {
 
 		// /api/v1/key
 		r.Route("/key", func(r chi.Router) {
+			r.Use(authMiddleware)
 			r.Post("/", HandleSSHGeneration)
+			r.Get("/{key_id}", HandleRetrieveSSHKeypair)
 		})
 	})
 

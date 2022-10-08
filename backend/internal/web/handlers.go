@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/KiDxS/GateKeeper/internal/models"
+	"github.com/go-chi/chi/v5"
 	"github.com/golang-jwt/jwt/v4"
 )
 
@@ -120,4 +122,23 @@ func HandleSSHGeneration(w http.ResponseWriter, r *http.Request) {
 		serveInteralServerError(w, err)
 	}
 	sendJSONResponse(w, 200, true, "An SSH keypair has been generated", nil)
+}
+
+func HandleRetrieveSSHKeypair(w http.ResponseWriter, r *http.Request) {
+	keyID, err := strconv.Atoi(chi.URLParam(r, "key_id"))
+	if err != nil {
+		serveInteralServerError(w, err)
+		return
+	}
+
+	keypair := models.SSHKeyPair{}
+	err = keypair.QuerySSHKeyPair(keyID)
+	if err != nil {
+		serveError(w, 404)
+		return
+	}
+	keypairMarshal, _ := json.Marshal(keypair)
+	keypairJSON := string(keypairMarshal)
+
+	sendJSONResponse(w, 200, true, "The SSH keypair has been retrieved.", keypairJSON)
 }
