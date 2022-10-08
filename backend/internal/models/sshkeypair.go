@@ -1,6 +1,8 @@
 package models
 
 import (
+	"database/sql"
+
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -18,7 +20,9 @@ func (keypair *SSHKeyPair) QuerySSHKeyPair(id int) error {
 		return err
 	}
 	err = stm.QueryRow(id).Scan(&keypair.ID, &keypair.Label, &keypair.PubKey, &keypair.PrivKey)
-
+	if err == sql.ErrNoRows {
+		ErrNoRows = sql.ErrNoRows
+	}
 	if err != nil {
 		return err
 	}
@@ -43,6 +47,9 @@ func (keypair *SSHKeyPair) QuerySSHKeyPairLabels() ([]string, error) {
 	db := connect()
 	labels := []string{}
 	rows, err := db.Query("SELECT label from sshpair")
+	if err == sql.ErrNoRows {
+		ErrNoRows = sql.ErrNoRows
+	}
 	if err != nil {
 		return nil, err
 	}
