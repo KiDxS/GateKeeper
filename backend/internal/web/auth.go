@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -16,17 +17,24 @@ type jwtClaim struct {
 	jwt.StandardClaims
 }
 
-func loadSecretKey() (secretKey []byte) {
+func loadSecretKey() []byte {
+	var path string
 	pwd, _ := os.Getwd()
-	rootPath := filepath.Dir(pwd)
-	path := filepath.Join(rootPath, ".env")
+	basePath := filepath.Dir(pwd)
+	if strings.Contains(basePath, "backend") {
+		path = filepath.Join(basePath, ".env")
+	} else {
+		path = filepath.Join(basePath, "./backend/.env")
+	}
+
 	err := godotenv.Load(path)
 	if err != nil {
 		log.Fatal().Msg(err.Error())
 	}
+
 	key := os.Getenv("SECRET_KEY")
-	secretKey = []byte(key)
-	return
+	secretKey := []byte(key)
+	return secretKey
 }
 
 // Verifies the JWT Token
