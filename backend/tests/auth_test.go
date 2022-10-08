@@ -25,20 +25,20 @@ func sendLoginRequest(field web.LoginFields, t testing.TB) int {
 
 func TestAuth(t *testing.T) {
 	t.Run("Test if login is successful", func(t *testing.T) {
-		loginFields := web.LoginFields{Username: "admin", Password: "abcdefghijklm"}
+		loginFields := web.LoginFields{Username: "admin", Password: "abcdefghijklmd"}
 		got := sendLoginRequest(loginFields, t)
 		want := 204
 		if got != want {
-			t.Errorf("got %q but want %q", got, want)
+			t.Errorf("Failed to login")
 		}
 
 	})
 	t.Run("Test if login is unsuccesful", func(t *testing.T) {
-		loginFields := web.LoginFields{Username: "admin", Password: "abcdefghijklmd"}
+		loginFields := web.LoginFields{Username: "admin", Password: "abcdefghijklm"}
 		got := sendLoginRequest(loginFields, t)
 		want := 401
 		if got != want {
-			t.Errorf("got %q but want %q", got, want)
+			t.Errorf("An error occured.")
 		}
 	})
 }
