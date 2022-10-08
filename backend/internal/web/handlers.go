@@ -125,20 +125,52 @@ func HandleSSHGeneration(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleRetrieveSSHKeypair(w http.ResponseWriter, r *http.Request) {
-	keyID, err := strconv.Atoi(chi.URLParam(r, "key_id"))
+	keyID, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		serveInteralServerError(w, err)
 		return
 	}
-
 	keypair := models.SSHKeyPair{}
 	err = keypair.QuerySSHKeyPair(keyID)
 	if err != nil {
-		serveError(w, 404)
+		if err == models.ErrNoRows {
+			sendJSONResponse(w, 404, false, "ID doesn't exist.", nil)
+			return
+		}
+		serveInteralServerError(w, err)
 		return
 	}
-	keypairMarshal, _ := json.Marshal(keypair)
-	keypairJSON := string(keypairMarshal)
+	sendJSONResponse(w, 200, true, "The SSH keypair has been retrieved.", keypair)
+}
+func HandleRetrieveSSHKeypairLabels(w http.ResponseWriter, r *http.Request) {
+	keypair := models.SSHKeyPair{}
+	labels, err := keypair.QuerySSHKeyPairLabels()
+	if err != nil {
+		if err == models.ErrNoRows {
+			sendJSONResponse(w, 404, false, "No SSH keypairs haven't been created yet.", nil)
+			return
+		}
+		serveInteralServerError(w, err)
+		return
+	}
+	sendJSONResponse(w, 200, true, "Retrieved a list of labels of SSH keypairs", labels)
+}
 
-	sendJSONResponse(w, 200, true, "The SSH keypair has been retrieved.", keypairJSON)
+func HandleDeleteSSHKeypair(w http.ResponseWriter, r *http.Request) {
+	keyID, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		serveInteralServerError(w, err)
+		return
+	}
+	keypair := models.SSHKeyPair{}
+	err = keypair.DeleteSSHKeyPair(keyID)
+	if err != nil {
+		if err == models.ErrNoRows {
+			sendJSONResponse(w, 404, false, "ID doesn't exist.", nil)
+			return
+		}
+		serveInteralServerError(w, err)
+		return
+	}
+	sendJSONResponse(w, 200, true, "The SSH Keypair has been deleted.", nil)
 }
