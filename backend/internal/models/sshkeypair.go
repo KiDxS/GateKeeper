@@ -5,10 +5,10 @@ import (
 )
 
 type SSHKeyPair struct {
-	ID      int
-	Label   string
-	PubKey  string
-	PrivKey string
+	ID      int    `json:"id"`
+	Label   string `json:"label"`
+	PubKey  string `json:"pubKey"`
+	PrivKey string `json:"privKey"`
 }
 
 func (keypair *SSHKeyPair) QuerySSHKeyPair(id int) error {
@@ -18,6 +18,7 @@ func (keypair *SSHKeyPair) QuerySSHKeyPair(id int) error {
 		return err
 	}
 	err = stm.QueryRow(id).Scan(&keypair.ID, &keypair.Label, &keypair.PubKey, &keypair.PrivKey)
+
 	if err != nil {
 		return err
 	}
