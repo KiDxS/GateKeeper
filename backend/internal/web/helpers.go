@@ -39,7 +39,7 @@ func sendJSONResponse(w http.ResponseWriter, statusCode int, status bool, messag
 		Message: message,
 		Data:    data,
 	}
-
+	w.Header().Set("Content-Type", "application/json")
 	jsonResp, err := json.Marshal(resp)
 	if err != nil {
 		serveInteralServerError(w, err)
