@@ -9,6 +9,8 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+var ErrNoRows error
+
 func connect() *sql.DB {
 	var db *sql.DB
 	var path string
