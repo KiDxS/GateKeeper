@@ -1,15 +1,8 @@
 import React from "react";
-import {
-    Heading,
-    useColorModeValue,
-
-    Flex,
-    Box,
-} from "@chakra-ui/react";
+import { Heading, useColorModeValue, Flex, Box } from "@chakra-ui/react";
 import ThemeModeSwitch from "./ThemeModeSwitch";
 
 const Navbar = () => {
-
     return (
         <Flex
             h={16}
