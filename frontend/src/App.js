@@ -1,26 +1,17 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./component/Login";
-import Index from "./component/Index";
-import ChangePassword from "./component/ChangePassword";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
 
-function App() {
+const App = () => {
     return (
-        <BrowserRouter>
+        <Router>
             <Routes>
-                <Route exact path="/" element={<Index />}></Route>
-                <Route exact path="/login" element={<Login />}></Route>
-                <Route
-                    path="*"
-                    element={<Navigate to="/not-found" replace />}
-                />
-                <Route
-                    exact
-                    path="/change-password"
-                    element={<ChangePassword />}
-                ></Route>
+                <Route exact path="/login" element={<LoginPage />}></Route>
+                <Route exact path="/dashboard" element=""></Route>
+                <Route exact path="/change-password" element=""></Route>
             </Routes>
-        </BrowserRouter>
+        </Router>
     );
-}
+};
 
 export default App;
