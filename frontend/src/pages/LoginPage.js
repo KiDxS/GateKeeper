@@ -13,7 +13,6 @@ import {
     FormErrorMessage,
 } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
-import LoadingScreen from "../components/LoadingScreen";
 import { postData } from "../utils/postData";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
