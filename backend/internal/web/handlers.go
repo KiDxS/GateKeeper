@@ -42,7 +42,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		Name:     "authToken",
 		Value:    jwtToken,
 		MaxAge:   60 * 60,
-		HttpOnly: true,
+		HttpOnly: false,
 		Path:     "/",
 	})
 
@@ -56,7 +56,7 @@ func handleLogout(w http.ResponseWriter, r *http.Request) {
 		Name:     "authToken",
 		Value:    "",
 		MaxAge:   0,
-		HttpOnly: true,
+		HttpOnly: false,
 		Path:     "/",
 	})
 	w.WriteHeader(204)
