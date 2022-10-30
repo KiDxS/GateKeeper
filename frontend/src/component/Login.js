@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import {
-    Paper,
-    createStyles,
-    TextInput,
-    PasswordInput,
-    Button,
-    Title,
-    Alert,
+  Paper,
+  createStyles,
+  TextInput,
+  PasswordInput,
+  Button,
+  Title,
+  Alert,
 } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons";
 import { useForm } from "@mantine/form";
@@ -14,128 +14,126 @@ import axios from "axios";
 import { Helmet } from "react-helmet";
 
 const useStyles = createStyles((theme) => ({
-    wrapper: {
-        minHeight: 900,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "0% 80%",
+  wrapper: {
+    minHeight: 900,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "0% 80%",
 
-        backgroundImage:
-            "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://images.unsplash.com/photo-1612206984652-9c468787ee11?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80);",
+    backgroundImage:
+      "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://images.unsplash.com/photo-1612206984652-9c468787ee11?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80);",
+  },
+
+  form: {
+    borderRight: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.colors.dark[0]
+    }`,
+    minHeight: 900,
+    maxWidth: 400,
+    paddingTop: 80,
+
+    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+      maxWidth: "100%",
     },
+  },
 
-    form: {
-        borderRight: `1px solid ${
-            theme.colorScheme === "dark"
-                ? theme.colors.dark[0]
-                : theme.colors.dark[0]
-        }`,
-        minHeight: 900,
-        maxWidth: 400,
-        paddingTop: 80,
+  title: {
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+  },
 
-        [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-            maxWidth: "100%",
-        },
-    },
-
-    title: {
-        color: theme.colorScheme === "dark" ? theme.white : theme.black,
-        fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-    },
-
-    logo: {
-        color: theme.colorScheme === "dark" ? theme.white : theme.black,
-        width: 120,
-        display: "block",
-        marginLeft: "auto",
-        marginRight: "auto",
-    },
+  logo: {
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+    width: 120,
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
 }));
 
 function Login() {
-    const [loginStatus, setLoginStatus] = useState(true);
-    const form = useForm({
-        initialValues: {
-            username: "",
-            password: "",
-        },
-        validate: {
-            username: (value) =>
-                value.length < 1 ? "Username must not be empty." : null,
-            password: (value) =>
-                value.length < 1 ? "Password must not be empty." : null,
-        },
-    });
+  const [loginStatus, setLoginStatus] = useState(true);
+  const form = useForm({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validate: {
+      username: (value) =>
+        value.length < 1 ? "Username must not be empty." : null,
+      password: (value) =>
+        value.length < 1 ? "Password must not be empty." : null,
+    },
+  });
 
-    const sendLoginRequest = form.onSubmit((values) => {
-        axios
-            .post(
-                "http://localhost:8080/api/v1/user/login",
-                {
-                    username: values.username,
-                    password: values.password,
-                },
-                {
-                    withCredentials: true,
-                }
-            )
-            .then((res) => {
-                console.log(res.status);
-                setLoginStatus(true);
-            })
-            .catch((err) => {
-                console.log("error");
-                setLoginStatus(false);
-            });
-    });
-    const { classes } = useStyles();
-    return (
-        <div className={classes.wrapper}>
-            <Helmet>
-                <title>GateKeeper - Login Page</title>
-            </Helmet>
-            <form onSubmit={sendLoginRequest}>
-                <Paper className={classes.form} radius={0} p={30}>
-                    <Title
-                        order={1}
-                        className={classes.title}
-                        align="center"
-                        mt="md"
-                        mb={50}
-                    >
-                        GateKeeper Login Page
-                    </Title>
-                    {loginStatus === false && (
-                        <Alert
-                            icon={<IconAlertCircle size={16} />}
-                            title="Bummer!"
-                            color="red"
-                        >
-                            Username or password is incorrect.
-                        </Alert>
-                    )}
-                    <TextInput
-                        label="Username"
-                        placeholder="Your username"
-                        size="md"
-                        {...form.getInputProps("username")}
-                    />
-                    <PasswordInput
-                        label="Password"
-                        placeholder="Your password"
-                        mt="md"
-                        size="md"
-                        {...form.getInputProps("password")}
-                    />
-                    <Button fullWidth mt="xl" size="md" type="submit">
-                        {" "}
-                        Login
-                    </Button>
-                </Paper>
-            </form>
-        </div>
-    );
+  const sendLoginRequest = form.onSubmit((values) => {
+    axios
+      .post(
+        "http://localhost:8080/api/v1/user/login",
+        {
+          username: values.username,
+          password: values.password,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        console.log(res.status);
+        setLoginStatus(true);
+      })
+      .catch((err) => {
+        console.log("error");
+        setLoginStatus(false);
+      });
+  });
+  const { classes } = useStyles();
+  return (
+    <div className={classes.wrapper}>
+      <Helmet>
+        <title>GateKeeper - Login Page</title>
+      </Helmet>
+      <form onSubmit={sendLoginRequest}>
+        <Paper className={classes.form} radius={0} p={30}>
+          <Title
+            order={1}
+            className={classes.title}
+            align="center"
+            mt="md"
+            mb={50}
+          >
+            GateKeeper Login Page
+          </Title>
+          {loginStatus === false && (
+            <Alert
+              icon={<IconAlertCircle size={16} />}
+              title="Bummer!"
+              color="red"
+            >
+              Username or password is incorrect.
+            </Alert>
+          )}
+          <TextInput
+            label="Username"
+            placeholder="Your username"
+            size="md"
+            {...form.getInputProps("username")}
+          />
+          <PasswordInput
+            label="Password"
+            placeholder="Your password"
+            mt="md"
+            size="md"
+            {...form.getInputProps("password")}
+          />
+          <Button fullWidth mt="xl" size="md" type="submit">
+            {" "}
+            Login
+          </Button>
+        </Paper>
+      </form>
+    </div>
+  );
 }
 
 export default Login;
