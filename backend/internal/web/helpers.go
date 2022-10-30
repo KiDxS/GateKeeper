@@ -18,15 +18,6 @@ func serveForbiddenError(w http.ResponseWriter) {
 
 }
 
-func serveError(w http.ResponseWriter, status int) {
-	http.Error(w, http.StatusText(status), status)
-
-}
-
-// func serveNotFoundError(w http.ResponseWriter) {
-// 	http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-// }
-
 // Function that sends a JSON Response
 func sendJSONResponse(w http.ResponseWriter, statusCode int, status bool, message string, data interface{}) {
 	type JSONResponse struct {
