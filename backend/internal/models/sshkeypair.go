@@ -30,7 +30,7 @@ func (keypair *SSHKeyPair) QuerySSHKeyPair(id int) error {
 	return nil
 }
 
-func (keypair *SSHKeyPair) InsertSSHPairKey(label, pubKey, privKey string) error {
+func (*SSHKeyPair) InsertSSHPairKey(label, pubKey, privKey string) error {
 	db := connect()
 	stm, err := db.Prepare("INSERT INTO sshpair (label, pub_key, priv_key) VALUES(?, ?, ?)")
 	if err != nil {
