@@ -11,7 +11,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func HandleIndex(w http.ResponseWriter, r *http.Request) {
+func HandleIndex(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("hello world"))
 }
@@ -50,7 +50,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 }
 
 // Handles the /api/v1/user/logout route
-func handleLogout(w http.ResponseWriter, r *http.Request) {
+func handleLogout(w http.ResponseWriter, _ *http.Request) {
 	// Expires the authToken cookie
 	http.SetCookie(w, &http.Cookie{
 		Name:     "authToken",
@@ -142,7 +142,7 @@ func HandleRetrieveSSHKeypair(w http.ResponseWriter, r *http.Request) {
 	}
 	sendJSONResponse(w, 200, true, "The SSH keypair has been retrieved.", keypair)
 }
-func HandleRetrieveSSHKeypairLabels(w http.ResponseWriter, r *http.Request) {
+func HandleRetrieveSSHKeypairLabels(w http.ResponseWriter, _ *http.Request) {
 	keypair := models.SSHKeyPair{}
 	labels, err := keypair.QuerySSHKeyPairLabels()
 	if err != nil {
