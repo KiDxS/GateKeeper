@@ -1,0 +1,29 @@
+version = 1
+
+test_patterns = ["backend/tests"]
+
+[[analyzers]]
+name = "sql"
+enabled = true
+
+[[analyzers]]
+name = "go"
+enabled = true
+
+  [analyzers.meta]
+  import_root = "github.com/KiDxS/GateKeeper"
+
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  plugins = ["react"]
+
+[[transformers]]
+name = "gofmt"
+enabled = true
+
+[[transformers]]
+name = "prettier"
+enabled = true
