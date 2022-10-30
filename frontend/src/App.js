@@ -12,13 +12,13 @@ import { useCookies } from "react-cookie";
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [cookies] = useCookies();
-    
+
     useEffect(() => {
         if (cookies.authToken && cookies.authToken.length !== 0) {
             setLoggedIn(true);
         }
         setLoggedIn(false);
-    },[cookies])
+    }, [cookies]);
     return (
         <Router>
             <Routes>
@@ -28,9 +28,9 @@ const App = () => {
                     element={
                         loggedIn ? <Navigate to="/dashboard" /> : <LoginPage />
                     }
-                ></Route>
-                <Route exact path="/dashboard" element={<Dashboard />}></Route>
-                <Route exact path="/change-password" element=""></Route>
+                />
+                <Route exact path="/dashboard" element={<Dashboard />} />
+                <Route exact path="/change-password" element="" />
             </Routes>
         </Router>
     );
