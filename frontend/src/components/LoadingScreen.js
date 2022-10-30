@@ -20,10 +20,11 @@ const LoadingScreen = (props) => {
                         bgColor="bg"
                         verticalAlign="middle"
                         size="xl"
-                    ></Spinner>
+                    />
                 </Flex>
-
-            ) : props.children}
+            ) : (
+                props.children
+            )}
         </>
     );
 };

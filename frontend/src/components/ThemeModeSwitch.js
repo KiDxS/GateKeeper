@@ -21,7 +21,7 @@ const ThemeModeSwitch = () => {
                     icon={useColorModeValue(<MoonIcon />, <SunIcon />)}
                     color={useColorModeValue("black", "white")}
                     onClick={toggleColorMode}
-                ></IconButton>
+                />
             </motion.div>
         </AnimatePresence>
     );
