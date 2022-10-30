@@ -3,6 +3,7 @@ import { useColorMode, IconButton, useColorModeValue } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { AnimatePresence, motion } from "framer-motion";
 
+// ThemeModeSwitch is a function that is used to switch  between two color mode which are : white & dark.
 const ThemeModeSwitch = () => {
     const { toggleColorMode } = useColorMode();
     return (
