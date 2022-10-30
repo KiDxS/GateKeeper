@@ -1,4 +1,4 @@
-import { React, useRef, useState } from "react";
+import { React, useEffect, useState } from "react";
 import {
     BrowserRouter as Router,
     Routes,
@@ -12,9 +12,13 @@ import { useCookies } from "react-cookie";
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [cookies] = useCookies();
-    if (cookies.authToken && cookies.authToken.length !== 0) {
-        setLoggedIn(true);
-    }
+    
+    useEffect(() => {
+        if (cookies.authToken && cookies.authToken.length !== 0) {
+            setLoggedIn(true);
+        }
+        setLoggedIn(false);
+    },[cookies])
     return (
         <Router>
             <Routes>
