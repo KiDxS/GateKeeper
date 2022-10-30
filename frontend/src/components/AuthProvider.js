@@ -11,9 +11,9 @@ const AuthProvider = (props) => {
             console.log(cookies.authToken.length);
             return;
         }
-
+        setLoggedIn(false);
         navigate("/");
-    }, [loggedIn, cookies, navigate]);
+    }, [cookies, navigate]);
     return <>{loggedIn && props.children}</>;
 };
 
