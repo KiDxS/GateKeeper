@@ -9,7 +9,7 @@ import (
 func GenerateToken(username string) (tokenString string, err error) {
 
 	secretKey := loadSecretKey()
-	expirationTime := time.Now().Add(1 * time.Minute)
+	expirationTime := time.Now().Add(1 * time.Hour)
 	claims := &jwtClaim{
 		Username: username,
 		RegisteredClaims: jwt.RegisteredClaims{
