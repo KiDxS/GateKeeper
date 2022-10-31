@@ -18,7 +18,7 @@ func ServeForbiddenError(w http.ResponseWriter) {
 
 }
 
-// Function that sends a JSON Response
+// SendJSONResponse is a helper that is used to send JSON data as a response.
 func SendJSONResponse(w http.ResponseWriter, statusCode int, status bool, message string, data interface{}) {
 	type JSONResponse struct {
 		Success bool        `json:"success"`

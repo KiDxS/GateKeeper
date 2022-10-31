@@ -10,6 +10,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
+// HandleSSHGeneration is the logic handler for the /api/v1/key route when creating a new SSH key pair
 func HandleSSHGeneration(w http.ResponseWriter, r *http.Request) {
 	fields := SSHGenerationFields{}
 	keypair := models.SSHKeyPair{}
@@ -31,6 +32,7 @@ func HandleSSHGeneration(w http.ResponseWriter, r *http.Request) {
 	helpers.SendJSONResponse(w, 200, true, "An SSH keypair has been generated", nil)
 }
 
+// HandleRetrieveSSHKeypair is the logic handler for the /api/v1/key/{id} route when retrieving a SSH key pair. This handler takes an id as its route parameter.
 func HandleRetrieveSSHKeypair(w http.ResponseWriter, r *http.Request) {
 	keyID, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
@@ -49,6 +51,8 @@ func HandleRetrieveSSHKeypair(w http.ResponseWriter, r *http.Request) {
 	}
 	helpers.SendJSONResponse(w, 200, true, "The SSH keypair has been retrieved.", keypair)
 }
+
+// HandleRetrieveSSHKeypairLabels is the logic handler for the /api/v1/key/ when sending a GET request. This handler returns a list of existing SSH key pairs from the system.
 func HandleRetrieveSSHKeypairLabels(w http.ResponseWriter, _ *http.Request) {
 	keypair := models.SSHKeyPair{}
 	labels, err := keypair.QuerySSHKeyPairLabels()
@@ -63,6 +67,7 @@ func HandleRetrieveSSHKeypairLabels(w http.ResponseWriter, _ *http.Request) {
 	helpers.SendJSONResponse(w, 200, true, "Retrieved a list of labels of SSH keypairs", labels)
 }
 
+// HandleDeleteSSHKeypair is the logic handler for the /api/v1/key/{id} when sending a DELETE request. This handler takes in an id as its route parameter.
 func HandleDeleteSSHKeypair(w http.ResponseWriter, r *http.Request) {
 	keyID, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {

@@ -16,7 +16,7 @@ func HandleIndex(w http.ResponseWriter, _ *http.Request) {
 	w.Write([]byte("hello world"))
 }
 
-// Handles the /api/v1/user/login route
+// HandleLogin is the logic handler for the /api/v1/user/login route
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	user := models.User{}
 	fields := LoginFields{}
@@ -49,7 +49,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(204)
 }
 
-// Handles the /api/v1/user/logout route
+// HandleLogout is the logic handler for the /api/v1/user/logout route
 func HandleLogout(w http.ResponseWriter, _ *http.Request) {
 	// Expires the authToken cookie
 	http.SetCookie(w, &http.Cookie{
@@ -62,7 +62,7 @@ func HandleLogout(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(204)
 }
 
-// Handles the /api/v1/user/change-password route
+// HandleChangePassword is the logic handler for the /api/v1/user/change-password route
 func HandleChangePassword(w http.ResponseWriter, r *http.Request) {
 	user := models.User{}
 	fields := ChangePasswordFields{}
