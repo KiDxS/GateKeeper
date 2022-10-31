@@ -1,8 +1,6 @@
 package ssh
 
-// Generates a SSH pair: A Private Key and a Public Key.
-//
-// Function returns a privateKey and a publicKey.
+// GenerateSSHPair is used to generate a SSH pair. It takes in a password as its argument to construct the private key.
 func GenerateSSHPair(password string) (string, string) {
 	privateKey, privateKeyStruct := GeneratePrivateKey(password)
 	publicKey := GeneratePublicKey(privateKeyStruct)

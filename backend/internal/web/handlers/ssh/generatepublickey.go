@@ -6,7 +6,7 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-// Generates a public key and returns a string
+// GeneratePublicKey generates a public key from a private key and outputs the result as a string.
 func GeneratePublicKey(privateKey *rsa.PrivateKey) string {
 	publicKeyStruct, _ := ssh.NewPublicKey(privateKey.Public())
 	publicKey := string(ssh.MarshalAuthorizedKey(publicKeyStruct))
