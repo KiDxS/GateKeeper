@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/KiDxS/GateKeeper/internal/models"
-	"github.com/KiDxS/GateKeeper/internal/web"
+	"github.com/KiDxS/GateKeeper/internal/web/handlers/ssh"
 )
 
 func checkIfPrivateKey(privateKey string) (matches bool) {
@@ -25,7 +25,7 @@ func checkIfPublicKey(publicKey string) (matches bool) {
 // Unit tests for generating the SSH keypairs
 func TestSSHGeneration(t *testing.T) {
 	t.Run("Generate Private Key", func(t *testing.T) {
-		privateKey, _ := web.GenerateSSHPair("test")
+		privateKey, _ := ssh.GenerateSSHPair("test")
 		got := checkIfPrivateKey(privateKey)
 		want := true
 		if got != want {
@@ -33,7 +33,7 @@ func TestSSHGeneration(t *testing.T) {
 		}
 	})
 	t.Run("Generate Public Key", func(t *testing.T) {
-		_, publicKey := web.GenerateSSHPair("test")
+		_, publicKey := ssh.GenerateSSHPair("test")
 		got := checkIfPublicKey(publicKey)
 		want := true
 
@@ -91,7 +91,7 @@ func TestSSHDataModel(t *testing.T) {
 
 func TestSSHRoute(t *testing.T) {
 	t.Run("Test SSH route for successful request", func(t *testing.T) {
-		fields := web.SSHGenerationFields{Label: "sshgen", Password: "test"}
+		fields := ssh.SSHGenerationFields{Label: "sshgen", Password: "test"}
 		var b bytes.Buffer
 		err := json.NewEncoder(&b).Encode(fields)
 		if err != nil {
@@ -99,7 +99,7 @@ func TestSSHRoute(t *testing.T) {
 		}
 		w := httptest.NewRecorder()
 		r := httptest.NewRequest(http.MethodPost, "/api/v1/key", &b)
-		web.HandleSSHGeneration(w, r)
+		ssh.HandleSSHGeneration(w, r)
 		resp := w.Result()
 		got := resp.StatusCode
 		want := 200
@@ -109,7 +109,7 @@ func TestSSHRoute(t *testing.T) {
 		}
 	})
 	t.Run("Test SSH route for a validation error", func(t *testing.T) {
-		fields := web.SSHGenerationFields{Label: "", Password: "test"}
+		fields := ssh.SSHGenerationFields{Label: "", Password: "test"}
 		var b bytes.Buffer
 		err := json.NewEncoder(&b).Encode(fields)
 		if err != nil {
@@ -117,7 +117,7 @@ func TestSSHRoute(t *testing.T) {
 		}
 		w := httptest.NewRecorder()
 		r := httptest.NewRequest(http.MethodPost, "/api/v1/key", &b)
-		web.HandleSSHGeneration(w, r)
+		ssh.HandleSSHGeneration(w, r)
 		resp := w.Result()
 		got := resp.StatusCode
 		want := 400
