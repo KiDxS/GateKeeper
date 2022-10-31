@@ -30,7 +30,7 @@ func (user *User) QueryUser(username, password string) (string, bool) {
 }
 
 // ChangeUserPassword is a function that is used to change the user's password in the database. This function takes three arguments which are "username", "currentPassword", and "newPassword".
-func (user *User) ChangeUserPassword(username, currentPassword, password string) (bool, error) {
+func (user *User) ChangeUserPassword(username, currentPassword, newPassword string) (bool, error) {
 	user.Username = username
 	user.Password = currentPassword
 	db := connect()
