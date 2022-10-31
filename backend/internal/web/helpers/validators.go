@@ -16,11 +16,9 @@ func msgForTag(fe validator.FieldError, fieldName string) string {
 	case "min":
 		return fmt.Sprintf("This %s field must have a minimum length of 12 characters.", fieldName)
 	case "eqfield":
-		switch fieldName {
-		case "confirm_password":
+		if fieldName == "confirm_password" {
 			return fmt.Sprintf("The %s field must be equal to the new_password field", fieldName)
 		}
-
 	}
 	return ""
 }
