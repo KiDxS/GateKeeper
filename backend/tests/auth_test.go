@@ -7,10 +7,10 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/KiDxS/GateKeeper/internal/web"
+	"github.com/KiDxS/GateKeeper/internal/web/handlers/auth"
 )
 
-func sendLoginRequest(field web.LoginFields, t testing.TB) int {
+func sendLoginRequest(field auth.LoginFields, t testing.TB) int {
 	var b bytes.Buffer
 	err := json.NewEncoder(&b).Encode(field)
 	if err != nil {
@@ -18,14 +18,14 @@ func sendLoginRequest(field web.LoginFields, t testing.TB) int {
 	}
 	w := httptest.NewRecorder()
 	req := httptest.NewRequest(http.MethodPost, "/api/v1/user/login", &b)
-	web.HandleLogin(w, req)
+	auth.HandleLogin(w, req)
 	resp := w.Result()
 	return resp.StatusCode
 }
 
 func TestAuth(t *testing.T) {
 	t.Run("Test if login is successful", func(t *testing.T) {
-		loginFields := web.LoginFields{Username: "admin", Password: "abcdefghijklmd"}
+		loginFields := auth.LoginFields{Username: "admin", Password: "abcdefghijklmd"}
 		got := sendLoginRequest(loginFields, t)
 		want := 204
 		if got != want {
@@ -34,7 +34,7 @@ func TestAuth(t *testing.T) {
 
 	})
 	t.Run("Test if login is unsuccesful", func(t *testing.T) {
-		loginFields := web.LoginFields{Username: "admin", Password: "abcdefghijklm"}
+		loginFields := auth.LoginFields{Username: "admin", Password: "abcdefghijklm"}
 		got := sendLoginRequest(loginFields, t)
 		want := 401
 		if got != want {
