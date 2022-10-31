@@ -31,3 +31,4 @@ When commiting a change add the following tags in the message.
 - perf: Update code performances.
 - test: Add test to an existing feature.
 - chore: Change Outside Runtime Environment - Update something without impacting the code (ex: readme update, CI/CD update...).
+- security: Changes that is regarding to security.
