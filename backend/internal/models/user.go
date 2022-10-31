@@ -12,9 +12,6 @@ type User struct {
 	Password string
 }
 
-// Creates a connection to the database
-
-// Queries the database for valid user credentials
 // QueryUser is a function that is used to query the database for an user. This function takes two arguments which are "username" and "password".
 func (user *User) QueryUser(username, password string) (string, bool) {
 	db := connect()
