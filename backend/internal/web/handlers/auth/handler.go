@@ -8,7 +8,7 @@ import (
 	"github.com/KiDxS/GateKeeper/internal/models"
 	"github.com/KiDxS/GateKeeper/internal/web/helpers"
 	"github.com/KiDxS/GateKeeper/internal/web/middlewares"
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 func HandleIndex(w http.ResponseWriter, _ *http.Request) {

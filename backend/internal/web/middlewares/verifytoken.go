@@ -1,6 +1,6 @@
 package middlewares
 
-import "github.com/golang-jwt/jwt"
+import "github.com/golang-jwt/jwt/v4"
 
 func verifyToken(tokenString string) (token *jwt.Token, err error) {
 	secretKey := loadSecretKey()
