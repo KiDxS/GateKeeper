@@ -9,11 +9,11 @@ import (
 func GenerateToken(username string) (tokenString string, err error) {
 
 	secretKey := loadSecretKey()
-	expirationTime := time.Now().Add(1 * time.Hour)
+	expirationTime := time.Now().Add(1 * time.Minute)
 	claims := &jwtClaim{
 		Username: username,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expirationTime.Unix(),
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(expirationTime),
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

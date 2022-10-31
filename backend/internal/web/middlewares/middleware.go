@@ -12,7 +12,7 @@ import (
 
 type jwtClaim struct {
 	Username string `json:"username"`
-	jwt.StandardClaims
+	jwt.RegisteredClaims
 }
 
 func loadSecretKey() []byte {
