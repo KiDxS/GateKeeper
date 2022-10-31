@@ -5,9 +5,13 @@ import {
     Route,
     Navigate,
 } from "react-router-dom";
+import { useCookies } from "react-cookie";
+
+
 import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/LoginPage";
-import { useCookies } from "react-cookie";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
+
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -30,7 +34,7 @@ const App = () => {
                     }
                 />
                 <Route exact path="/dashboard" element={<Dashboard />} />
-                <Route exact path="/change-password" element="" />
+                <Route exact path="/change-password" element={<ChangePasswordPage />} />
             </Routes>
         </Router>
     );
