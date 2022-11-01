@@ -1,21 +1,16 @@
-package middlewares
+package helpers
 
 import (
 	"os"
 	"path/filepath"
 	"strings"
 
-	"github.com/golang-jwt/jwt/v4"
-	"github.com/joho/godotenv"
 	"github.com/rs/zerolog/log"
+
+	"github.com/joho/godotenv"
 )
 
-type jwtClaim struct {
-	Username string `json:"username"`
-	jwt.RegisteredClaims
-}
-
-func loadSecretKey() []byte {
+func LoadSecretKey() []byte {
 	var path string
 	pwd, _ := os.Getwd()
 	basePath := filepath.Dir(pwd)
