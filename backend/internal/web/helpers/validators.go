@@ -25,7 +25,7 @@ func msgForTag(fe validator.FieldError, fieldName string) string {
 	return ""
 }
 
-// Validate a field
+// Validate is a helper function that is used to validate the fields of a form.
 func Validate(field interface{}) string {
 	validate := validator.New()
 	e := ""
