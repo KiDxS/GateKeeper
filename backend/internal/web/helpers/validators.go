@@ -8,8 +8,6 @@ import (
 	"github.com/go-playground/validator"
 )
 
-type field interface{}
-
 // Create a custom error message.
 func msgForTag(fe validator.FieldError, fieldName string) string {
 	switch fe.Tag() {
