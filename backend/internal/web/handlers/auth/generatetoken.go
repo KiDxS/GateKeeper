@@ -1,14 +1,15 @@
-package middlewares
+package auth
 
 import (
 	"time"
 
+	"github.com/KiDxS/GateKeeper/internal/web/helpers"
 	"github.com/golang-jwt/jwt/v4"
 )
 
 func GenerateToken(username string) (tokenString string, err error) {
 
-	secretKey := loadSecretKey()
+	secretKey := helpers.LoadSecretKey()
 	expirationTime := time.Now().Add(1 * time.Hour)
 	claims := &jwtClaim{
 		Username: username,

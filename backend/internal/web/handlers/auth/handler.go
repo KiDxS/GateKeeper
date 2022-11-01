@@ -7,7 +7,6 @@ import (
 
 	"github.com/KiDxS/GateKeeper/internal/models"
 	"github.com/KiDxS/GateKeeper/internal/web/helpers"
-	"github.com/KiDxS/GateKeeper/internal/web/middlewares"
 	"github.com/golang-jwt/jwt/v4"
 )
 
@@ -30,7 +29,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		helpers.SendJSONResponse(w, 401, false, "Username or password is incorrect.", nil)
 		return
 	}
-	jwtToken, err := middlewares.GenerateToken(username)
+	jwtToken, err := GenerateToken(username)
 	// expirationTime := time.Now().Add(1 * time.Hour)
 	if err != nil {
 		helpers.ServeInteralServerError(w, err)
