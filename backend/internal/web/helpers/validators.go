@@ -8,6 +8,8 @@ import (
 	"github.com/go-playground/validator"
 )
 
+type field interface{}
+
 // Create a custom error message.
 func msgForTag(fe validator.FieldError, fieldName string) string {
 	switch fe.Tag() {
@@ -24,7 +26,7 @@ func msgForTag(fe validator.FieldError, fieldName string) string {
 }
 
 // Validate a field
-func Validate(fieldStruct interface{}) string {
+func Validate(field interface{}) string {
 	validate := validator.New()
 	e := ""
 	validate.RegisterTagNameFunc(func(fld reflect.StructField) string {
@@ -35,7 +37,7 @@ func Validate(fieldStruct interface{}) string {
 		return name
 	})
 
-	err := validate.Struct(fieldStruct)
+	err := validate.Struct(field)
 	if err == nil {
 		return e
 	}
