@@ -38,27 +38,14 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Sets the cookie of the user
-	http.SetCookie(w, &http.Cookie{
-		Name:     "authToken",
-		Value:    jwtToken,
-		MaxAge:   60 * 60,
-		HttpOnly: false,
-		Path:     "/",
-	})
-
+	setCookie(w, "authToken", jwtToken)
 	w.WriteHeader(204)
 }
 
 // HandleLogout is the logic handler for the /api/v1/user/logout route
 func HandleLogout(w http.ResponseWriter, _ *http.Request) {
 	// Expires the authToken cookie
-	http.SetCookie(w, &http.Cookie{
-		Name:     "authToken",
-		Value:    "",
-		MaxAge:   0,
-		HttpOnly: false,
-		Path:     "/",
-	})
+	removeCookie(w, "authToken")
 	w.WriteHeader(204)
 }
 
