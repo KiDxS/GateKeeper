@@ -16,6 +16,3 @@ enabled = true
 [[analyzers]]
 name = "javascript"
 enabled = true
-
-  [analyzers.meta]
-  plugins = ["react"]
