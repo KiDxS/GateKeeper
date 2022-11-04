@@ -23,8 +23,7 @@ jobs:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
       working-directory: ./backend
       run: |
-            echo $SECRET_KEY > .env
-            cat .env
+            echo SECRET_KEY=$SECRET_KEY > .env
     
     - name: Build
       working-directory: ./backend
