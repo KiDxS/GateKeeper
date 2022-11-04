@@ -67,13 +67,13 @@ func TestSSHDataModel(t *testing.T) {
 			t.Errorf("We weren't able to retrieve the labels from the database")
 		}
 	})
-	t.Run("Delete a SSH keypair", func(t *testing.T) {
-		keypair := models.SSHKeyPair{}
-		err := keypair.DeleteSSHKeyPair(10)
-		if err != nil {
-			t.Errorf("we weren't able to delete a SSH pair key from the database")
-		}
-	})
+	// t.Run("Delete a SSH keypair", func(t *testing.T) {
+	// 	keypair := models.SSHKeyPair{}
+	// 	err := keypair.DeleteSSHKeyPair(10)
+	// 	if err != nil {
+	// 		t.Errorf("we weren't able to delete a SSH pair key from the database")
+	// 	}
+	// })
 	t.Run("Update the label of a SSH keypair", func(t *testing.T) {
 		keypair := models.SSHKeyPair{}
 		err := keypair.UpdateSSHKeyPairLabel(9, "testupdates")
