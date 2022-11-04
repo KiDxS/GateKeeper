@@ -19,11 +19,3 @@ enabled = true
 
   [analyzers.meta]
   plugins = ["react"]
-
-[[transformers]]
-name = "gofmt"
-enabled = true
-
-[[transformers]]
-name = "prettier"
-enabled = true
