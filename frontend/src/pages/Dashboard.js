@@ -5,16 +5,16 @@ import Navbar from "../components/Navbar";
 import AuthProvider from "../components/AuthProvider";
 
 const Dashboard = () => {
-    return (
-        <LoadingScreen>
-            <AuthProvider>
-                <Navbar />
-                <Container>
-                    <Heading>Dashboard!!</Heading>
-                </Container>
-            </AuthProvider>
-        </LoadingScreen>
-    );
+  return (
+    <LoadingScreen>
+      <AuthProvider>
+        <Navbar />
+        <Container>
+          <Heading>Dashboard!!</Heading>
+        </Container>
+      </AuthProvider>
+    </LoadingScreen>
+  );
 };
 
 export default Dashboard;
