@@ -14,9 +14,8 @@ func main() {
 		ReadHeaderTimeout: 3 * time.Second,
 		Handler:           web.Routes(),
 	}
-
-	err := server.ListenAndServe()
 	log.Info().Msg("Server is listening on port 8080")
+	err := server.ListenAndServe()
 	if err != nil {
 		log.Panic().Msg(err.Error())
 	}
