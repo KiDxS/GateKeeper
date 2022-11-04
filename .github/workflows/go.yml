@@ -20,7 +20,12 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: 1.18
-
+    - name: Create .env file
+      env: 
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      working-directory: ./backend
+      run: echo $SECRET_KEY > .env
+    
     - name: Build
       working-directory: ./backend
       run: go build -o ./cmd/server ./cmd/main.go
