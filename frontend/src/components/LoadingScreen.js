@@ -1,5 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { Spinner, Flex } from "@chakra-ui/react";
+
+// Loading Screen component
 const LoadingScreen = (props) => {
   const [loading, setLoading] = useState(true);
 

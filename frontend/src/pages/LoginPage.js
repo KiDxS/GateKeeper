@@ -27,6 +27,7 @@ const LoginPage = () => {
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm();
+    
     const loginStatus = {
         success: useRef(false),
         wrong_creds: useRef(false),
@@ -38,6 +39,7 @@ const LoginPage = () => {
         }
     }, [navigate, cookies]);
 
+    // handleLogin is a function that sends a login request to the login API
     const handleLogin = async (data) => {
         try {
             const url = "http://127.0.0.1:8080/api/v1/user/login";
@@ -59,7 +61,7 @@ const LoginPage = () => {
             }
         }
     };
-
+    // renderAlert is a function that is used to render alerts if needed.
     const renderAlert = () => {
         if (loginStatus.success.current === true) {
             return (

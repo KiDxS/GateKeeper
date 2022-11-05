@@ -4,6 +4,7 @@ import LoadingScreen from "../components/LoadingScreen";
 import Navbar from "../components/Navbar";
 import AuthProvider from "../components/AuthProvider";
 
+// Dashboard component
 const Dashboard = () => {
     return (
         <LoadingScreen>

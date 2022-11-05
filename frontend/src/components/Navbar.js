@@ -13,6 +13,7 @@ import ThemeModeSwitch from "./ThemeModeSwitch";
 import { fetchData } from "../utils/fetchData";
 import { useNavigate } from "react-router-dom";
 
+// Navbar component
 const Navbar = () => {
     const [cookies] = useCookies();
     const [loggedIn, setLoggedIn] = useState(false);
@@ -26,6 +27,7 @@ const Navbar = () => {
         setLoggedIn(false);
     }, [cookies]);
 
+    // handleLogout is a function that sends a request to the logout API and redirects the user to the login page
     const handleLogout = async () => {
         try {
             const options = { withCredentials: true };
