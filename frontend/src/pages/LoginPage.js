@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import LoadingScreen from "../components/LoadingScreen";
 
+// Login page
 const LoginPage = () => {
     const [cookies] = useCookies();
     const navigate = useNavigate();
