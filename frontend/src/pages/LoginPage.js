@@ -41,7 +41,6 @@ const LoginPage = () => {
     const handleLogin = async (data) => {
         try {
             const url = "http://127.0.0.1:8080/api/v1/user/login";
-            // eslint-disable-next-line no-unused-vars
             const options = { withCredentials: true };
             const response = await postData(url, data, options);
             loginStatus.success.current = true;

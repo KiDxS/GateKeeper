@@ -12,7 +12,6 @@ import { useCookies } from "react-cookie";
 import ThemeModeSwitch from "./ThemeModeSwitch";
 import { fetchData } from "../utils/fetchData";
 import { useNavigate } from "react-router-dom";
-import AuthProvider from "./AuthProvider";
 
 const Navbar = () => {
     const [cookies] = useCookies();
