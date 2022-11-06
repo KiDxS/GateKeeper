@@ -28,7 +28,7 @@ const LoginPage = () => {
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm();
-    
+
     const loginStatus = {
         success: useRef(false),
         wrong_creds: useRef(false),
@@ -40,8 +40,8 @@ const LoginPage = () => {
         }
     }, [navigate, cookies]);
 
-    // handleLogin is a function that sends a login request to the login API
-    const handleLogin = async (data) => {
+    // onSubmit function acts as a callback function that handles the behavioral aspect of the form if data are submitted.
+    const onSubmit = async (data) => {
         try {
             const url = "http://127.0.0.1:8080/api/v1/user/login";
             const options = { withCredentials: true };
@@ -105,8 +105,8 @@ const LoginPage = () => {
                         Login to your account
                     </Heading>
                 </Stack>
-                <Box my="7" borderWidth="1px" borderRadius="md" boxShadow="2xl">
-                    <form onSubmit={handleSubmit(handleLogin)}>
+                <Box my="7" borderWidth={1} borderRadius="md" boxShadow="2xl">
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <Stack spacing="4" p={{ base: 10, sm: 20 }}>
                             {renderAlert()}
                             <FormControl isInvalid={errors.username}>
@@ -117,6 +117,7 @@ const LoginPage = () => {
                                     id="username"
                                     type="text"
                                     placeholder="Username"
+                                    // Registers the following input to react-hook-form
                                     {...register("username", {
                                         required: "This field is required.",
                                     })}
@@ -132,6 +133,7 @@ const LoginPage = () => {
                                 <Input
                                     type="password"
                                     placeholder="Password"
+                                    // Registers the following input to react-hook-form
                                     {...register("password", {
                                         required: "This field is required.",
                                     })}
