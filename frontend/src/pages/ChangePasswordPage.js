@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
     Container,
     Box,
@@ -10,11 +10,14 @@ import {
     Input,
     Button,
     FormErrorMessage,
+    Alert,
+    AlertIcon,
 } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import padlockLogo from "../assets/padlock.png";
 import { useForm } from "react-hook-form";
 import AuthProvider from "../components/AuthProvider";
+import { postData } from "../utils/postData";
 
 // Change password page
 const ChangePasswordPage = () => {
@@ -25,9 +28,59 @@ const ChangePasswordPage = () => {
         getValues,
         formState: { errors, isSubmitting },
     } = useForm();
+    const status = {
+        success: useRef(),
+        error: useRef(false),
+    };
+
+    const renderAlert = () => {
+        if (status.success.current === true) {
+            return (
+                <Alert status="success">
+                    <AlertIcon />
+                    Your password has been changed.
+                </Alert>
+            );
+        }
+        if (status.success.current === false) {
+            return (
+                <Alert status="error">
+                    <AlertIcon />
+                    The password put as the current password is wrong.
+                </Alert>
+            );
+        }
+        if (status.error.current === true) {
+            return (
+                <Alert status="error">
+                    <AlertIcon />
+                    There was an error processing your request.
+                </Alert>
+            );
+        }
+    };
 
     // onSubmit function acts as a callback function that handles the behavioral aspect of the form if data are submitted.
-    const onSubmit = async (data) => console.log(data);
+    const onSubmit = async (data) => {
+        try {
+            const options = { withCredentials: true };
+            const url = "http://127.0.0.1:8080/api/v1/user/change-password";
+            const response = await postData(url, data, options);
+            status.success.current = true;
+        } catch (err) {
+            if (err.code === "ERR_NETWORK") {
+                status.error.current = true;
+                return;
+            }
+            switch (err.response.status) {
+                case 400:
+                    status.success.current = false;
+                    break;
+                default:
+                    status.error.curent = true;
+            }
+        }
+    };
     return (
         <AuthProvider>
             <Box>
@@ -51,6 +104,7 @@ const ChangePasswordPage = () => {
                             </Heading>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <Stack spacing={5}>
+                                    {renderAlert()}
                                     <FormControl
                                         isInvalid={errors.current_password}
                                     >
