@@ -30,8 +30,7 @@ const LoginPage = () => {
     } = useForm();
 
     const loginStatus = {
-        success: useRef(false),
-        wrong_creds: useRef(false),
+        success: useRef(),
         error: useRef(false),
     };
     useEffect(() => {
@@ -55,7 +54,7 @@ const LoginPage = () => {
             }
             switch (err.response.status) {
                 case 401:
-                    loginStatus.wrong_creds.current = true;
+                    loginStatus.success.current = false;
                     break;
                 default:
                     loginStatus.error.current = true;
@@ -72,7 +71,7 @@ const LoginPage = () => {
                 </Alert>
             );
         }
-        if (loginStatus.wrong_creds.current === true) {
+        if (loginStatus.success.current === false) {
             return (
                 <Alert status="error">
                     <AlertIcon />
