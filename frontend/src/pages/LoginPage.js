@@ -29,7 +29,7 @@ const LoginPage = () => {
         formState: { errors, isSubmitting },
     } = useForm();
 
-    const loginStatus = {
+    const status = {
         success: useRef(),
         error: useRef(false),
     };
@@ -45,25 +45,25 @@ const LoginPage = () => {
             const url = "http://127.0.0.1:8080/api/v1/user/login";
             const options = { withCredentials: true };
             const response = await postData(url, data, options);
-            loginStatus.success.current = true;
+            status.success.current = true;
             navigate("/dashboard");
         } catch (err) {
             if (err.code === "ERR_NETWORK") {
-                loginStatus.error.current = true;
+                status.error.current = true;
                 return;
             }
             switch (err.response.status) {
                 case 401:
-                    loginStatus.success.current = false;
+                    status.success.current = false;
                     break;
                 default:
-                    loginStatus.error.current = true;
+                    status.error.current = true;
             }
         }
     };
     // renderAlert is a function that is used to render alerts if needed.
     const renderAlert = () => {
-        if (loginStatus.success.current === true) {
+        if (status.success.current === true) {
             return (
                 <Alert status="success">
                     <AlertIcon />
@@ -71,7 +71,7 @@ const LoginPage = () => {
                 </Alert>
             );
         }
-        if (loginStatus.success.current === false) {
+        if (status.success.current === false) {
             return (
                 <Alert status="error">
                     <AlertIcon />
@@ -79,7 +79,7 @@ const LoginPage = () => {
                 </Alert>
             );
         }
-        if (loginStatus.error.current === true) {
+        if (status.error.current === true) {
             return (
                 <Alert status="error">
                     <AlertIcon />
