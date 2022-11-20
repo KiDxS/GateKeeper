@@ -7,7 +7,8 @@ import (
 
 	"github.com/KiDxS/GateKeeper/internal/models"
 	"github.com/KiDxS/GateKeeper/internal/web/helpers"
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
+	"github.com/rs/zerolog/log"
 )
 
 // HandleSSHGeneration is the logic handler for the /api/v1/key route when creating a new SSH key pair
@@ -34,6 +35,8 @@ func HandleSSHGeneration(w http.ResponseWriter, r *http.Request) {
 
 // HandleRetrieveSSHKeypair is the logic handler for the /api/v1/key/{id} route when retrieving a SSH key pair. This handler takes an id as its route parameter.
 func HandleRetrieveSSHKeypair(w http.ResponseWriter, r *http.Request) {
+	test := chi.URLParam(r, "id")
+	log.Info().Msg(test)
 	keyID, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		helpers.ServeInteralServerError(w, err)
@@ -69,6 +72,8 @@ func HandleRetrieveSSHKeypairLabels(w http.ResponseWriter, _ *http.Request) {
 
 // HandleDeleteSSHKeypair is the logic handler for the /api/v1/key/{id} when sending a DELETE request. This handler takes in an id as its route parameter.
 func HandleDeleteSSHKeypair(w http.ResponseWriter, r *http.Request) {
+	test := chi.URLParam(r, "id")
+	log.Info().Msg(test)
 	keyID, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		helpers.ServeInteralServerError(w, err)
