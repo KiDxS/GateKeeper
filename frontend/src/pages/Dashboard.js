@@ -20,7 +20,7 @@ import { fetchData } from "../utils/fetchData";
 
 // Dashboard page
 const Dashboard = () => {
-    const [keypairLabel, setKeypairLabel] = useState([]);
+    const [keypairs, setKeypairs] = useState([]);
     useEffect(() => {
         async function fetchKeypairLabels() {
             try {
@@ -30,22 +30,22 @@ const Dashboard = () => {
                     options
                 );
                 const json = await response.data;
-                setKeypairLabel(json.data);
+                setKeypairs(json.data);
             } catch (err) {}
         }
         fetchKeypairLabels();
     }, []);
 
-    const labels = keypairLabel.map((label, id) => {
+    const labels = keypairs.map((keypair) => {
         return (
             <Tr>
-                <Td>{label}</Td>
+                <Td>{keypair.label}</Td>
                 <Td>
                     <Stack spacing={2} direction="row">
                         <Button variant="solid" colorScheme="blue">
                             View
                         </Button>
-                        <DeleteDialog />
+                        <DeleteDialog labelID={keypair.id} />
                     </Stack>
                 </Td>
             </Tr>
@@ -67,34 +67,6 @@ const Dashboard = () => {
                             </Thead>
                             <Tbody>
                                 {labels}
-                                {/* <Tr>
-                                    <Td>This is just a test</Td>
-                                    <Td>
-                                        <Stack spacing={2} direction="row">
-                                            <Button
-                                                variant="solid"
-                                                colorScheme="blue"
-                                            >
-                                                View
-                                            </Button>
-                                            <DeleteDialog />
-                                        </Stack>
-                                    </Td>
-                                </Tr>
-                                <Tr>
-                                    <Td>This is just a test</Td>
-                                    <Td>
-                                        <Stack spacing={2} direction="row">
-                                            <Button
-                                                variant="solid"
-                                                colorScheme="blue"
-                                            >
-                                                View
-                                            </Button>
-                                            <DeleteDialog />
-                                        </Stack>
-                                    </Td>
-                                </Tr>  */}
                             </Tbody>
                         </Table>
                     </TableContainer>
