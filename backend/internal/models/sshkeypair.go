@@ -43,10 +43,10 @@ func (*SSHKeyPair) InsertSSHPairKey(label, pubKey, privKey string) error {
 	return nil
 }
 
-func (keypair *SSHKeyPair) QuerySSHKeyPairLabels() ([]string, error) {
+func (keypair *SSHKeyPair) QuerySSHKeyPairLabels() ([]SSHKeyPair, error) {
 	db := connect()
-	labels := []string{}
-	rows, err := db.Query("SELECT label from sshpair")
+	labels := []SSHKeyPair{}
+	rows, err := db.Query("SELECT id, label from sshpair")
 	if err == sql.ErrNoRows {
 		ErrNoRows = sql.ErrNoRows
 	}
@@ -55,8 +55,8 @@ func (keypair *SSHKeyPair) QuerySSHKeyPairLabels() ([]string, error) {
 	}
 
 	for rows.Next() {
-		rows.Scan(&keypair.Label)
-		labels = append(labels, keypair.Label)
+		rows.Scan(&keypair.ID, &keypair.Label)
+		labels = append(labels, *keypair)
 	}
 	return labels, nil
 }
