@@ -1,22 +1,18 @@
-FROM golang:1.19
+FROM golang:1.19-alpine AS build
 
-# Creates a app folder
-RUN mkdir -p /app
 
 # Changes our current directory to the app folder
 WORKDIR /app
 
-# Copies the dependencies
-COPY backend/go.mod backend/go.sum ./
+# Copies the files to the current directory
+COPY ./backend/ .
 
-# Installs the dependencies
-RUN go mod download && go mod verify
+# Builds the binary
+RUN CGO_ENABLED=0 go build -v -o /bin/api-server ./cmd/main.go
 
-# Copies the whole codebase of the backend to the app folder.
-COPY backend/ .
-
-# Builds a executable file
-RUN go build -o cmd/server cmd/main.go
+# Multibuild
+FROM busybox
+COPY --from=build /bin/api-server /bin/
 
 # Starts the server
-CMD ["cmd/server"]
+CMD ["/bin/api-server"]
