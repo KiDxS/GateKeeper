@@ -38,7 +38,7 @@ const Navbar = () => {
             px={4}
             alignItems="center"
             justifyContent="space-between"
-            color={"white"}
+            color="white"
             bgColor={"navbg"}
         >
             <Box color={"white"}>
