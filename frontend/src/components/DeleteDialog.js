@@ -10,24 +10,23 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 const DeleteDialog = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = React.useRef();
-
-    const onDelete = async () => {
-       try {
-        const id = props.labelID;
-        const options = { withCredentials: true };
-        const url = `http://127.0.0.1:8080/api/v1/key/${id}`
-        const response = await axios.delete(url, options);
-        onClose();
-       } catch (err) {
-
-       }
+    const queryClient = useQueryClient();
+    const onDelete = async (id) => {
+        try {
+            const options = { withCredentials: true };
+            const url = `http://127.0.0.1:8080/api/v1/key/${id}`;
+            const response = await axios.delete(url, options);
+            console.log("hello");
+            onClose();
+        } catch (err) {}
     };
-    // const onTest = () => {
-    //     console.log(props.labelID);
-    // }
+    const mutation = useMutation(onDelete, {
+        onSuccess: () => queryClient.invalidateQueries("keypairs"),
+    });
     return (
         <>
             <Button onClick={onOpen} variant="solid" colorScheme="red">
@@ -54,7 +53,11 @@ const DeleteDialog = (props) => {
                             <Button ref={cancelRef} onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button colorScheme="red" onClick={onDelete} ml={3}>
+                            <Button
+                                colorScheme="red"
+                                onClick={() => mutation.mutate(props.labelID)}
+                                ml={3}
+                            >
                                 Delete
                             </Button>
                         </AlertDialogFooter>
