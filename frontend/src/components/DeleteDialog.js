@@ -19,7 +19,7 @@ const DeleteDialog = (props) => {
         try {
             const options = { withCredentials: true };
             const url = `http://127.0.0.1:8080/api/v1/key/${id}`;
-            const response = await axios.delete(url, options);
+            await axios.delete(url, options);
             console.log("hello");
             onClose();
         } catch (err) {}
