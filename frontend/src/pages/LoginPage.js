@@ -98,7 +98,7 @@ const LoginPage = () => {
                         size={{ base: "2xl", sm: "4xl" }}
                         textAlign="center"
                     >
-                        GateKeeper
+                        gatekeeper
                     </Heading>
                     <Heading size={{ base: "sm", sm: "md" }} textAlign="center">
                         Login to your account
