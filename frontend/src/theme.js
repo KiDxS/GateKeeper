@@ -11,7 +11,7 @@ const theme = extendTheme({
                 _dark: "blackAlpha.600",
             },
             body: {
-                default: "black",
+                default: "white",
                 _dark: "white",
             },
         },
