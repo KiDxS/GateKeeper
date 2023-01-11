@@ -24,7 +24,9 @@ const CreateDialog = () => {
         register,
         handleSubmit,
         formState: { errors, isSubmitting, isValid },
-    } = useForm();
+    } = useForm({
+        mode: "onChange",
+    });
 
     const onSubmit = async (data) => {
         try {
@@ -38,6 +40,8 @@ const CreateDialog = () => {
         if (isValid) {
             onClose();
         }
+        console.log(isValid);
+        console.log(errors);
     };
     return (
         <>
@@ -99,6 +103,7 @@ const CreateDialog = () => {
                                     ml={3}
                                     onClick={onClosing}
                                     isLoading={isSubmitting}
+                                    is
                                 >
                                     Create
                                 </Button>
