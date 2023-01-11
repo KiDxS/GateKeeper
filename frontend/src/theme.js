@@ -3,13 +3,19 @@
 // 1. import `extendTheme` function
 import { extendTheme } from "@chakra-ui/react";
 
-// 2. Add your color mode config
-const config = {
-    initialColorMode: "light",
-    useSystemColorMode: false,
-};
-
-// 3. extend the theme
-const theme = extendTheme({ config });
+const theme = extendTheme({
+    semanticTokens: {
+        colors: {
+            navbg: {
+                default: "blackAlpha.900",
+                _dark: "blackAlpha.600",
+            },
+            body: {
+                default: "black",
+                _dark: "white",
+            },
+        },
+    },
+});
 
 export default theme;
