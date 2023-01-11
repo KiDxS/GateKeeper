@@ -1,13 +1,5 @@
 import { React, useState, useEffect } from "react";
-import {
-    Heading,
-    useColorModeValue,
-    Flex,
-    Box,
-    Link,
-    Stack,
-    Button,
-} from "@chakra-ui/react";
+import { Heading, Flex, Box, Link, Stack, Button } from "@chakra-ui/react";
 import { useCookies } from "react-cookie";
 import ThemeModeSwitch from "./ThemeModeSwitch";
 import { fetchData } from "../utils/fetchData";
@@ -31,7 +23,7 @@ const Navbar = () => {
     const handleLogout = async () => {
         try {
             const options = { withCredentials: true };
-            const response = await fetchData(
+            await fetchData(
                 "http://127.0.0.1:8080/api/v1/user/logout",
                 options
             );
