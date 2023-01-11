@@ -10,6 +10,8 @@ import {
     Td,
     TableContainer,
     Button,
+    Flex,
+    Heading,
 } from "@chakra-ui/react";
 
 import LoadingScreen from "../components/LoadingScreen";
@@ -18,6 +20,7 @@ import AuthProvider from "../components/AuthProvider";
 import DeleteDialog from "../components/DeleteDialog";
 import { fetchData } from "../utils/fetchData";
 import { useQuery } from "@tanstack/react-query";
+import CreateDialog from "../components/CreateDialog";
 
 // Dashboard page
 const Dashboard = () => {
@@ -57,7 +60,11 @@ const Dashboard = () => {
         <LoadingScreen>
             <AuthProvider>
                 <Navbar />
-                <Container maxW="6xl" mt={8}>
+                <Container maxW="6xl" mt={6}>
+                    <Flex justifyContent="space-between" mb={4}>
+                        <Heading as="h2">SSH Keys</Heading>
+                        <CreateDialog />
+                    </Flex>
                     <TableContainer>
                         <Table size="lg" variant="simple">
                             <Thead>
