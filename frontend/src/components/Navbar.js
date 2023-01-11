@@ -46,11 +46,11 @@ const Navbar = () => {
             px={4}
             alignItems="center"
             justifyContent="space-between"
-            color={useColorModeValue("white")}
-            bgColor={useColorModeValue("blackAlpha.900", "blackAlpha.600")}
+            color={"white"}
+            bgColor={"navbg"}
         >
-            <Box color={useColorModeValue("white")}>
-                <Heading size={{ base: "md", sm: "xl" }}>GateKeeper</Heading>
+            <Box color={"white"}>
+                <Heading size={{ base: "md", sm: "xl" }}>gatekeeper</Heading>
             </Box>
             {loggedIn ? (
                 <Stack direction="row" spacing={7} alignItems="center">
