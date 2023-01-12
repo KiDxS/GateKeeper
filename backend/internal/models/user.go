@@ -13,6 +13,7 @@ type User struct {
 	Password string
 }
 
+// CheckHashedPassword is a function that compares the hashed password from the database with its possible plain text password.
 func CheckHashedPassword(hashedPassword, password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 	if err != nil {
