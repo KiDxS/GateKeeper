@@ -12,6 +12,7 @@ import {
     Button,
     Flex,
     Heading,
+    Link,
 } from "@chakra-ui/react";
 
 import LoadingScreen from "../components/LoadingScreen";
@@ -46,9 +47,11 @@ const Dashboard = () => {
                 <Td>{keypair.label}</Td>
                 <Td>
                     <Stack spacing={2} direction="row">
-                        <Button variant="solid" colorScheme="blue">
-                            View
-                        </Button>
+                        <Link href={"http://127.0.0.1:3000/view/" + keypair.id}>
+                            <Button variant="solid" colorScheme="blue">
+                                View
+                            </Button>
+                        </Link>
                         <DeleteDialog labelID={keypair.id} />
                     </Stack>
                 </Td>
