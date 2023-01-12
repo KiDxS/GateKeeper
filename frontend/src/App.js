@@ -1,10 +1,10 @@
 import { React } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-
 import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/LoginPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
+import ViewSSHKeypair from "./pages/ViewSSHKeypair";
 
 // App component
 const App = () => {
@@ -18,6 +18,7 @@ const App = () => {
                     path="/change-password"
                     element={<ChangePasswordPage />}
                 />
+                <Route exact path="/view/:id" element={<ViewSSHKeypair />} />
             </Routes>
         </Router>
     );
