@@ -2,7 +2,6 @@ import React from "react";
 import ResizeTextArea from "react-textarea-autosize";
 import { Textarea } from "@chakra-ui/react";
 
-
 const AutoResizeTextArea = React.forwardRef((props, ref) => {
     return (
         <Textarea
@@ -14,7 +13,7 @@ const AutoResizeTextArea = React.forwardRef((props, ref) => {
             {...props}
             resize="none"
             isDisabled
-        ></Textarea>
+        />
     );
 });
 

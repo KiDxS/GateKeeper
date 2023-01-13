@@ -77,9 +77,7 @@ const ViewSSHKeypair = () => {
                                     : "Copy to clipboard"}
                             </Button>
                         </Flex>
-                        <AutoResizeTextArea
-                            value={privKey}
-                        ></AutoResizeTextArea>
+                        <AutoResizeTextArea value={privKey} />
                     </Stack>
 
                     <Stack spacing={2}>
@@ -92,7 +90,7 @@ const ViewSSHKeypair = () => {
                                     : "Copy to clipboard"}
                             </Button>
                         </Flex>
-                        <AutoResizeTextArea value={pubKey}></AutoResizeTextArea>
+                        <AutoResizeTextArea value={pubKey} />
                     </Stack>
                 </SimpleGrid>
             </Container>
