@@ -2,13 +2,13 @@ package auth
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/KiDxS/GateKeeper/internal/models"
 	"github.com/KiDxS/GateKeeper/internal/web/helpers"
-	"github.com/golang-jwt/jwt/v4"
 )
+
+var user = models.User{}
 
 func HandleIndex(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)
@@ -17,7 +17,7 @@ func HandleIndex(w http.ResponseWriter, _ *http.Request) {
 
 // HandleLogin is the logic handler for the /api/v1/user/login route
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
-	user := models.User{}
+	// user := models.User{}
 	fields := LoginFields{}
 	err := json.NewDecoder(r.Body).Decode(&fields)
 	if err != nil {
@@ -50,7 +50,7 @@ func HandleLogout(w http.ResponseWriter, _ *http.Request) {
 
 // HandleChangePassword is the logic handler for the /api/v1/user/change-password route
 func HandleChangePassword(w http.ResponseWriter, r *http.Request) {
-	user := models.User{}
+	// user := models.User{}
 	fields := ChangePasswordFields{}
 	err := json.NewDecoder(r.Body).Decode(&fields)
 	if err != nil {
@@ -65,26 +65,14 @@ func HandleChangePassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	authTokenCookie, err := r.Cookie("authToken")
+	passwordChanged, err := user.ChangeUserPassword(fields.CurrentPassword, fields.NewPassword)
 	if err != nil {
 		helpers.ServeInteralServerError(w, err)
 		return
 	}
-	token, _ := jwt.ParseWithClaims(authTokenCookie.Value, jwt.MapClaims{}, nil)
-	JWTClaims, ok := token.Claims.(jwt.MapClaims)
-	if ok {
-		// Be careful of %s formats because it doesn't escape special characters.
-		username := fmt.Sprintf("%s", JWTClaims["username"])
-		passwordChanged, err := user.ChangeUserPassword(username, fields.CurrentPassword, fields.NewPassword)
-		if err != nil {
-			helpers.ServeInteralServerError(w, err)
-			return
-		}
-		if !passwordChanged {
-			helpers.SendJSONResponse(w, 400, false, "Your current password is not correct.", nil)
-			return
-		}
-
+	if !passwordChanged {
+		helpers.SendJSONResponse(w, 400, false, "Your current password is not correct.", nil)
+		return
 	}
 	helpers.SendJSONResponse(w, 200, true, "The password has been changed.", nil)
 }
