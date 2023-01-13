@@ -11,7 +11,7 @@ const AuthProvider = (props) => {
     useEffect(() => {
         if (cookies.authToken && cookies.authToken.length !== 0) {
             setLoggedIn(true);
-            console.log(cookies.authToken.length);
+            
             return;
         }
         setLoggedIn(false);
