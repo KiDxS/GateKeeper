@@ -24,15 +24,12 @@ To manage the SSH pairs we will be using IDs to access or modify these pairs.
     **label**
     - it must not be empty
 
-    **password**
-    - it cannot be less than 12 characters
-
 4. Generate SSH key pair based on the inputs
     If password field is empty, leave the password as blank.
 
-5. Redirect the user to the created key pair.
+5. Redirect the user to the created keypair.
 
-#### Viewing the list of generated SSH pairs
+#### Viewing the list of generated SSH keypairs
 1. User logins to the application.
 2. The dashboard will be populated with information. e.g the labels of the SSH pairs.
 
@@ -87,10 +84,8 @@ To manage the SSH pairs we will be using IDs to access or modify these pairs.
     - it cannot be less than 12 characters
 
 4. The user submits the request
-
-    If the password is wrong:
-
-        return a message that their creds are wrong.
+    If the current password is wrong:
+        return a message that their current password is wrong.
 
 
 ## REST API Design:
@@ -138,7 +133,7 @@ GET /api/v1/user/logout
 POST /api/v1/user/changepw
 
 // SSH key pair object
-GET /api/v1/key - Retrieve a list of SSH pairs.
+GET /api/v1/key - Retrieve a list of SSH keypairs.
 GET /api/v1/key/:id - To retrieve a single SSH pair
 DELETE /api/v1/key/:id - To delete
 POST /api/v1/key - To Create
