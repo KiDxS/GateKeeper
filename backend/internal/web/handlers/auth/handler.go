@@ -17,7 +17,6 @@ func HandleIndex(w http.ResponseWriter, _ *http.Request) {
 
 // HandleLogin is the logic handler for the /api/v1/user/login route
 func HandleLogin(w http.ResponseWriter, r *http.Request) {
-	// user := models.User{}
 	fields := LoginFields{}
 	err := json.NewDecoder(r.Body).Decode(&fields)
 	if err != nil {
@@ -30,6 +29,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	jwtToken, err := GenerateToken(username)
+
 	// expirationTime := time.Now().Add(1 * time.Hour)
 	if err != nil {
 		helpers.ServeInteralServerError(w, err)
@@ -50,7 +50,6 @@ func HandleLogout(w http.ResponseWriter, _ *http.Request) {
 
 // HandleChangePassword is the logic handler for the /api/v1/user/change-password route
 func HandleChangePassword(w http.ResponseWriter, r *http.Request) {
-	// user := models.User{}
 	fields := ChangePasswordFields{}
 	err := json.NewDecoder(r.Body).Decode(&fields)
 	if err != nil {

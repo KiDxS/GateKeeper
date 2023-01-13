@@ -41,14 +41,16 @@ func (user *User) QueryUser(username, password string) (string, bool) {
 
 // ChangeUserPassword is a function that is used to change the user's password in the database. This function takes three arguments which are "username", "currentPassword", and "newPassword".
 func (user *User) ChangeUserPassword(currentPassword, newPassword string) (bool, error) {
-
 	db := connect()
+
 	// Checks if the password inputted is equivalent to the hashed password in the database
 	if !CheckHashedPassword(user.Password, currentPassword) {
 		return false, nil
 	}
+
 	// Hashes the new password
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(newPassword), 10)
+
 	// SQL Query to update the password column, if the conditions are right.
 	stm, _ := db.Prepare("UPDATE user SET password = ? where username = ?")
 	result, err := stm.Exec(hashedPassword, user.Username)
