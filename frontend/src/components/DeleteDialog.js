@@ -21,7 +21,7 @@ const DeleteDialog = (props) => {
             const options = { withCredentials: true };
             const url = api.delete_ssh_keypair + id
             await axios.delete(url, options);
-            console.log("hello");
+            
             onClose();
         } catch (err) {
             console.error(err)

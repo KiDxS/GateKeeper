@@ -41,8 +41,8 @@ const CreateDialog = () => {
         if (isValid) {
             onClose();
         }
-        console.log(isValid);
-        console.log(errors);
+        
+        
     };
     return (
         <>
