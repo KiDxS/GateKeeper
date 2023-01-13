@@ -55,7 +55,7 @@ func TestSSHDataModel(t *testing.T) {
 	})
 	t.Run("Retrieve the information of a single SSH pair", func(t *testing.T) {
 		keypair := models.SSHKeyPair{}
-		err := keypair.QuerySSHKeyPair(9)
+		err := keypair.QuerySSHKeyPair(36)
 		if err != nil {
 			t.Errorf("An error has occured while fetching a keypair")
 		}
@@ -76,7 +76,7 @@ func TestSSHDataModel(t *testing.T) {
 	// })
 	t.Run("Update the label of a SSH keypair", func(t *testing.T) {
 		keypair := models.SSHKeyPair{}
-		err := keypair.UpdateSSHKeyPairLabel(9, "testupdates")
+		err := keypair.UpdateSSHKeyPairLabel(36, "testupdates")
 		if err != nil {
 			t.Errorf("An error has occured while updating a label of a SSH key pair")
 		}
