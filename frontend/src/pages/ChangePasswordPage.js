@@ -65,7 +65,7 @@ const ChangePasswordPage = () => {
     const onSubmit = async (data) => {
         try {
             const options = { withCredentials: true };
-            const response = await postData(api.change_password, data, options);
+            await postData(api.change_password, data, options);
             status.success.current = true;
         } catch (err) {
             if (err.code === "ERR_NETWORK") {
