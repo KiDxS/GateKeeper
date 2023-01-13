@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { postData } from "../utils/postData";
+import { api } from "../utils/urls";
 
 const CreateDialog = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -30,12 +31,10 @@ const CreateDialog = () => {
 
     const onSubmit = async (data) => {
         try {
-            const url = "http://127.0.0.1:8080/api/v1/key";
             const options = { withCredentials: true };
-            await postData(url, data, options);
+            await postData(api.create_ssh_keypair, data, options);
         } catch (err) {}
     };
-
     const onClosing = () => {
         if (isValid) {
             onClose();

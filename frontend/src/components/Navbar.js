@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import ThemeModeSwitch from "./ThemeModeSwitch";
 import { fetchData } from "../utils/fetchData";
 import { useNavigate } from "react-router-dom";
+import { api } from "../utils/urls";
 
 // Navbar component
 const Navbar = () => {
@@ -24,7 +25,7 @@ const Navbar = () => {
         try {
             const options = { withCredentials: true };
             await fetchData(
-                "http://127.0.0.1:8080/api/v1/user/logout",
+                api.logout,
                 options
             );
             navigate("/");

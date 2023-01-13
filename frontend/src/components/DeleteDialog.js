@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from "../utils/urls";
 const DeleteDialog = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = React.useRef();
@@ -18,7 +19,7 @@ const DeleteDialog = (props) => {
     const onDelete = async (id) => {
         try {
             const options = { withCredentials: true };
-            const url = `http://127.0.0.1:8080/api/v1/key/${id}`;
+            const url = api.delete_ssh_keypair + id
             await axios.delete(url, options);
             console.log("hello");
             onClose();

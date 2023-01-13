@@ -22,6 +22,7 @@ import DeleteDialog from "../components/DeleteDialog";
 import { fetchData } from "../utils/fetchData";
 import { useQuery } from "@tanstack/react-query";
 import CreateDialog from "../components/CreateDialog";
+import { api, app } from "../utils/urls";
 
 // Dashboard page
 const Dashboard = () => {
@@ -29,7 +30,7 @@ const Dashboard = () => {
         try {
             const options = { withCredentials: true };
             const response = await fetchData(
-                "http://127.0.0.1:8080/api/v1/key",
+                api.retrieve_all_ssh_keypairs,
                 options
             );
             const json = await response.data;
@@ -47,7 +48,7 @@ const Dashboard = () => {
                 <Td>{keypair.label}</Td>
                 <Td>
                     <Stack spacing={2} direction="row">
-                        <Link href={"http://127.0.0.1:3000/view/" + keypair.id}>
+                        <Link href={app.view_ssh_keypair + keypair.id}>
                             <Button variant="solid" colorScheme="blue">
                                 View
                             </Button>

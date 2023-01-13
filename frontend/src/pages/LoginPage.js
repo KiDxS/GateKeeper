@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import LoadingScreen from "../components/LoadingScreen";
+import { api } from "../utils/urls";
 
 // Login page
 const LoginPage = () => {
@@ -42,9 +43,8 @@ const LoginPage = () => {
     // onSubmit function acts as a callback function that handles the behavioral aspect of the form if data are submitted.
     const onSubmit = async (data) => {
         try {
-            const url = "http://127.0.0.1:8080/api/v1/user/login";
             const options = { withCredentials: true };
-            await postData(url, data, options);
+            await postData(api.login, data, options);
             status.success.current = true;
             navigate("/dashboard");
         } catch (err) {
