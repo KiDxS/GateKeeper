@@ -55,7 +55,7 @@ const CreateDialog = () => {
                 <AlertDialogOverlay>
                     <AlertDialogContent>
                         <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                            Create new SSH keypair
+                            Create a new SSH keypair
                         </AlertDialogHeader>
 
                         <form onSubmit={handleSubmit(onSubmit)}>
