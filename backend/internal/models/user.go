@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/rs/zerolog/log"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -39,14 +40,19 @@ func (user *User) QueryUser(username, password string) (string, bool) {
 }
 
 // ChangeUserPassword is a function that is used to change the user's password in the database. This function takes three arguments which are "username", "currentPassword", and "newPassword".
-func (user *User) ChangeUserPassword(username, currentPassword, newPassword string) (bool, error) {
-	user.Username = username
-	user.Password = currentPassword
-	db := connect()
+func (user *User) ChangeUserPassword(currentPassword, newPassword string) (bool, error) {
 
+	db := connect()
+	// Checks if the password inputted is equivalent to the hashed password in the database
+	if !CheckHashedPassword(user.Password, currentPassword) {
+		return false, nil
+	}
+	// Hashes the new password
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(newPassword), 10)
 	// SQL Query to update the password column, if the conditions are right.
-	stm, _ := db.Prepare("UPDATE user SET password = ? where username = ? AND password = ?")
-	result, err := stm.Exec(newPassword, user.Username, user.Password)
+	stm, _ := db.Prepare("UPDATE user SET password = ? where username = ?")
+	result, err := stm.Exec(hashedPassword, user.Username)
+	log.Info().Msgf("%s", user.Username)
 	if err != nil {
 		return false, err
 	}
