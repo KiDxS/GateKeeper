@@ -36,7 +36,9 @@ const Dashboard = () => {
             const json = await response.data;
             // console.log(json);
             return json.data;
-        } catch (err) {}
+        } catch (err) {
+            console.error(err)
+        }
     };
     const { isLoading, data } = useQuery(["keypairs"], fetchKeypairs);
 

@@ -32,7 +32,9 @@ const ViewSSHKeypair = () => {
                 const data = json.data;
                 setPubKey(data.pubKey);
                 setPrivKey(data.privKey);
-            } catch (err) {}
+            } catch (err) {
+                console.error(err)
+            }
         };
         fetchKeypair();
     });

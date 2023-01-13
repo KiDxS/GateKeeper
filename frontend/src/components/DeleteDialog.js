@@ -23,7 +23,9 @@ const DeleteDialog = (props) => {
             await axios.delete(url, options);
             console.log("hello");
             onClose();
-        } catch (err) {}
+        } catch (err) {
+            console.error(err)
+        }
     };
     const mutation = useMutation(onDelete, {
         onSuccess: () => queryClient.invalidateQueries("keypairs"),

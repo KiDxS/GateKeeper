@@ -33,7 +33,9 @@ const CreateDialog = () => {
         try {
             const options = { withCredentials: true };
             await postData(api.create_ssh_keypair, data, options);
-        } catch (err) {}
+        } catch (err) {
+            console.error(err)
+        }
     };
     const onClosing = () => {
         if (isValid) {
