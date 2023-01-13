@@ -1,13 +1,22 @@
 package main
 
 import (
-	"log"
 	"net/http"
+	"time"
 
 	"github.com/KiDxS/GateKeeper/internal/web"
+	"github.com/rs/zerolog/log"
 )
 
 func main() {
-	log.Println("Server is listening on port 8080")
-	http.ListenAndServe(":8080", web.Routes())
+	server := &http.Server{
+		Addr:              ":8080",
+		ReadHeaderTimeout: 3 * time.Second,
+		Handler:           web.Routes(),
+	}
+	log.Info().Msg("Server is listening on port 8080")
+	err := server.ListenAndServe()
+	if err != nil {
+		log.Panic().Msg(err.Error())
+	}
 }

@@ -1,14 +1,16 @@
 package models
 
 import (
+	"database/sql"
+
 	_ "github.com/mattn/go-sqlite3"
 )
 
 type SSHKeyPair struct {
-	ID      int
-	Label   string
-	PubKey  string
-	PrivKey string
+	ID      int    `json:"id"`
+	Label   string `json:"label"`
+	PubKey  string `json:"pubKey"`
+	PrivKey string `json:"privKey"`
 }
 
 func (keypair *SSHKeyPair) QuerySSHKeyPair(id int) error {
@@ -18,6 +20,9 @@ func (keypair *SSHKeyPair) QuerySSHKeyPair(id int) error {
 		return err
 	}
 	err = stm.QueryRow(id).Scan(&keypair.ID, &keypair.Label, &keypair.PubKey, &keypair.PrivKey)
+	if err == sql.ErrNoRows {
+		ErrNoRows = sql.ErrNoRows
+	}
 	if err != nil {
 		return err
 	}
@@ -25,7 +30,7 @@ func (keypair *SSHKeyPair) QuerySSHKeyPair(id int) error {
 	return nil
 }
 
-func (keypair *SSHKeyPair) InsertSSHPairKey(label, pubKey, privKey string) error {
+func (*SSHKeyPair) InsertSSHPairKey(label, pubKey, privKey string) error {
 	db := connect()
 	stm, err := db.Prepare("INSERT INTO sshpair (label, pub_key, priv_key) VALUES(?, ?, ?)")
 	if err != nil {
@@ -38,17 +43,20 @@ func (keypair *SSHKeyPair) InsertSSHPairKey(label, pubKey, privKey string) error
 	return nil
 }
 
-func (keypair *SSHKeyPair) QuerySSHKeyPairLabels() ([]string, error) {
+func (keypair *SSHKeyPair) QuerySSHKeyPairLabels() ([]SSHKeyPair, error) {
 	db := connect()
-	labels := []string{}
-	rows, err := db.Query("SELECT label from sshpair")
+	labels := []SSHKeyPair{}
+	rows, err := db.Query("SELECT id, label from sshpair")
+	if err == sql.ErrNoRows {
+		ErrNoRows = sql.ErrNoRows
+	}
 	if err != nil {
 		return nil, err
 	}
 
 	for rows.Next() {
-		rows.Scan(&keypair.Label)
-		labels = append(labels, keypair.Label)
+		rows.Scan(&keypair.ID, &keypair.Label)
+		labels = append(labels, *keypair)
 	}
 	return labels, nil
 }

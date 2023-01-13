@@ -1,26 +1,27 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./component/Login";
-import Index from "./component/Index";
-import ChangePassword from "./component/ChangePassword";
+import { React } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-function App() {
+import Dashboard from "./pages/Dashboard";
+import LoginPage from "./pages/LoginPage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
+import ViewSSHKeypair from "./pages/ViewSSHKeypair";
+
+// App component
+const App = () => {
     return (
-        <BrowserRouter>
+        <Router>
             <Routes>
-                <Route exact path="/" element={<Index />}></Route>
-                <Route exact path="/login" element={<Login />}></Route>
-                <Route
-                    path="*"
-                    element={<Navigate to="/not-found" replace />}
-                />
+                <Route exact path="/" element={<LoginPage />} />
+                <Route exact path="/dashboard" element={<Dashboard />} />
                 <Route
                     exact
                     path="/change-password"
-                    element={<ChangePassword />}
-                ></Route>
+                    element={<ChangePasswordPage />}
+                />
+                <Route exact path="/view/:id" element={<ViewSSHKeypair />} />
             </Routes>
-        </BrowserRouter>
+        </Router>
     );
-}
+};
 
 export default App;

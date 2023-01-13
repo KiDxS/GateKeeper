@@ -3,6 +3,8 @@ package web
 import (
 	"net/http"
 
+	"github.com/KiDxS/GateKeeper/internal/web/handlers"
+	"github.com/KiDxS/GateKeeper/internal/web/middlewares"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 )
@@ -26,32 +28,37 @@ func Routes() http.Handler {
 		r.Route("/user", func(r chi.Router) {
 
 			// /api/v1/user/login
-			r.Post("/login", HandleLogin)
+			r.Post("/login", handlers.Login)
 
 			// /api/v1/user/logout
-			r.Get("/logout", handleLogout)
+			r.Get("/logout", handlers.Logout)
 
 			// Requires authentication
 			r.Group(func(r chi.Router) {
-				r.Use(authMiddleware)
+				r.Use(middlewares.AuthMiddleware)
 				// /api/v1/user/change-password
-				r.Post("/change-password", handleChangePassword)
+				r.Post("/change-password", handlers.ChangePassword)
 			})
 
 		})
 		// Debugging purposes, remove later
-		r.Get("/", HandleIndex)
+		r.Get("/", handlers.Index)
 
 		// /api/v1/protected
 		r.Route("/protected", func(r chi.Router) {
 
-			r.Use(authMiddleware)
-			r.Get("/", HandleIndex)
+			r.Use(middlewares.AuthMiddleware)
+			r.Get("/", handlers.Index)
 		})
 
 		// /api/v1/key
 		r.Route("/key", func(r chi.Router) {
-			r.Post("/", HandleSSHGeneration)
+			r.Use(middlewares.AuthMiddleware)
+			r.Get("/", handlers.RetrieveSSHKeypairLabels)
+			r.Get("/{id}", handlers.RetrieveSSHKeypair)
+			r.Post("/", handlers.SSHGeneration)
+
+			r.Delete("/{id}", handlers.DeleteSSHKeypair)
 		})
 	})
 

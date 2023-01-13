@@ -10,6 +10,7 @@ require (
 	github.com/joho/godotenv v1.4.0
 	github.com/mattn/go-sqlite3 v1.14.15
 	github.com/rs/zerolog v1.27.0
+	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a
 	golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90
 )
 
@@ -21,7 +22,6 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect
-	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a // indirect
 	golang.org/x/sys v0.0.0-20220818161305-2296e01440c6 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect

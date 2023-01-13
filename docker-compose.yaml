@@ -1,12 +1,18 @@
 version: '3'
 services:
   gatekeeper-frontend:
-    image: gatekeeper-frontend:latest
+    build:
+      context: .
+      dockerfile: frontend.dockerfile
     ports:
       - 3000:3000
+    entrypoint: ["npm", "start"]
     
   gatekeeper-backend:
-    image: gatekeeper-backend:latest
+    build:
+      context: .
+      dockerfile: backend.dockerfile
     ports:
       - 8080:8080
+    entrypoint: ["/bin/api-server"]
 
