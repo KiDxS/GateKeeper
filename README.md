@@ -4,12 +4,8 @@
 
 </div>
 
+<img width="400px" src="docs/gatekeeper.png" /> <img width="400px" src="docs/login.png" />
 
-**Note: The project is currently in development**
-
-### Sneakpeek
-
-<img src="docs/sneakpeek.gif">
 
 ## 🔑 Key Features:
 - User Authentication
